@@ -3,10 +3,629 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Loi soins palliatifs — articles et chronologie</title>
+  <title>Fin de vie — carte interactive</title>
+  <meta name="description" content="Site interactif consultable sur téléphone : réforme de la fin de vie, soins palliatifs, aide à mourir, parcours, rôles et procédure législative.">
+  <style>
+    :root {
+      --bg:#f6f7fb;
+      --panel:#ffffff;
+      --ink:#111827;
+      --muted:#5b6472;
+      --line:#d8dee9;
+      --brand:#111827;
+      --blue:#2563eb;
+      --green:#059669;
+      --purple:#7c3aed;
+      --orange:#ea580c;
+      --shadow:0 18px 50px rgba(15,23,42,.10);
+      --radius:22px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 34rem),
+        radial-gradient(circle at top right, rgba(5,150,105,.12), transparent 32rem),
+        var(--bg);
+      line-height:1.55;
+    }
+    a { color:#1d4ed8; }
+    .site-shell { max-width:1360px; margin:0 auto; padding:20px; }
+    .hero {
+      position:relative;
+      overflow:hidden;
+      border-radius:28px;
+      background:linear-gradient(135deg,#111827,#263244 62%,#0f766e);
+      color:white;
+      padding:32px;
+      box-shadow:var(--shadow);
+    }
+    .hero::after {
+      content:"";
+      position:absolute;
+      right:-90px; top:-90px;
+      width:260px; height:260px;
+      background:rgba(255,255,255,.12);
+      border-radius:50%;
+    }
+    .hero h1 { margin:0; font-size:clamp(28px,5vw,52px); line-height:1.04; max-width:950px; }
+    .hero p { max-width:880px; color:#e5e7eb; margin:14px 0 0; font-size:clamp(15px,2vw,18px); }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+    .hero-actions a, .hero-actions button {
+      appearance:none; border:1px solid rgba(255,255,255,.25); cursor:pointer;
+      border-radius:999px; padding:10px 14px; font-weight:800; text-decoration:none;
+      color:white; background:rgba(255,255,255,.12); backdrop-filter: blur(8px);
+    }
+    .hero-actions a:hover, .hero-actions button:hover { background:rgba(255,255,255,.20); }
+    .layout { display:grid; grid-template-columns:320px minmax(0,1fr); gap:18px; margin-top:18px; align-items:start; }
+    .sidebar {
+      position:sticky; top:14px; background:rgba(255,255,255,.86); backdrop-filter: blur(10px);
+      border:1px solid var(--line); border-radius:var(--radius); padding:14px; box-shadow:0 10px 32px rgba(15,23,42,.06);
+    }
+    .sidebar h2 { margin:0 0 10px; font-size:17px; }
+    .mobile-select { display:none; width:100%; margin-bottom:12px; padding:12px; border:1px solid var(--line); border-radius:14px; background:#fff; font-weight:800; }
+    .search-wrap { margin:10px 0 12px; }
+    .search-wrap label { display:block; font-size:13px; font-weight:800; color:#374151; margin-bottom:6px; }
+    #searchInput { width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; font-size:15px; }
+    .nav-list { display:grid; gap:8px; }
+    .nav-btn {
+      width:100%; text-align:left; border:1px solid var(--line); background:#fff; color:var(--ink);
+      border-radius:16px; padding:11px; cursor:pointer; transition:.15s ease;
+    }
+    .nav-btn span { display:block; font-size:15px; font-weight:900; }
+    .nav-btn small { display:block; color:var(--muted); margin-top:2px; line-height:1.3; }
+    .nav-btn:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(15,23,42,.08); }
+    .nav-btn.active { border-color:#111827; background:#111827; color:white; }
+    .nav-btn.active small { color:#d1d5db; }
+    .tools { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+    .tool-btn { border:1px solid var(--line); background:#f8fafc; border-radius:14px; padding:10px; font-weight:800; cursor:pointer; }
+    .content { min-width:0; }
+    .tab-panel { display:none; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:var(--radius); box-shadow:0 10px 32px rgba(15,23,42,.06); overflow:hidden; }
+    .tab-panel.active { display:block; animation:fadeIn .18s ease-out; }
+    @keyframes fadeIn { from { opacity:.2; transform:translateY(4px); } to { opacity:1; transform:none; } }
+    .panel-head { padding:22px 24px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#f8fafc); }
+    .panel-head .eyebrow { margin:0 0 6px; color:#64748b; font-weight:900; letter-spacing:.08em; text-transform:uppercase; font-size:12px; }
+    .panel-head h2 { margin:0; font-size:clamp(24px,3vw,34px); line-height:1.1; }
+    .panel-head p { margin:8px 0 0; color:var(--muted); }
+    .panel-body { padding:24px; }
+    .panel-body > style:first-child + * { margin-top:0; }
+    .panel-body h3 { margin-top:28px; }
+    .panel-body table { display:block; overflow-x:auto; white-space:normal; }
+    .panel-body details { scroll-margin-top:12px; }
+    .callout { border-radius:16px; background:#fff7ed; border:1px solid #fed7aa; padding:12px 14px; margin:14px 0; }
+    .section { margin:18px 0; }
+    .section:first-child { margin-top:0; }
+    .question { margin-top:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:12px 14px; }
+    .quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:18px; }
+    .quick-card { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:18px; padding:14px; color:white; }
+    .quick-card strong { display:block; font-size:17px; }
+    .quick-card span { color:#e5e7eb; font-size:14px; }
+    .empty-state { display:none; margin:12px 0 0; padding:11px; border-radius:14px; background:#fff7ed; border:1px solid #fed7aa; color:#7c2d12; font-size:14px; }
+    mark.search-hit { background:#fef08a; color:#111827; border-radius:3px; padding:0 2px; }
+    .back-top { position:fixed; right:16px; bottom:16px; z-index:20; border:0; background:#111827; color:#fff; border-radius:999px; padding:10px 13px; font-weight:900; cursor:pointer; box-shadow:var(--shadow); display:none; }
+    .back-top.visible { display:block; }
+    @media (max-width: 900px) {
+      .site-shell { padding:12px; }
+      .hero { padding:22px; border-radius:22px; }
+      .layout { grid-template-columns:1fr; gap:12px; }
+      .sidebar { position:static; top:auto; }
+      .nav-list { display:none; }
+      .mobile-select { display:block; }
+      .panel-head { padding:18px; }
+      .panel-body { padding:16px; }
+      .tools { grid-template-columns:1fr; }
+      .panel-body details summary { align-items:flex-start; }
+      .am-content,.sp-content,.proc-content { padding-left:16px !important; }
+      .flow-step,.parcours-step { grid-template-columns:1fr !important; }
+      .parcours-step:not(:last-child)::after { display:none; }
+      .role-matrix,.decision-table,.parcours-table { font-size:13px; }
+    }
+    @media print {
+      body { background:#fff; } .sidebar,.hero-actions,.back-top,.mobile-select { display:none !important; }
+      .layout { display:block; } .tab-panel { display:block !important; margin:0 0 20px; box-shadow:none; break-inside:avoid; }
+      details { break-inside:avoid; } details:not([open]) > *:not(summary) { display:block; }
+    }
+  </style>
 </head>
 <body>
-<p>
+  <div class="site-shell">
+    <header class="hero">
+      <h1>Fin de vie : carte interactive</h1>
+      <p>Un site consultable sur ordinateur et téléphone pour naviguer entre les onglets : aide à mourir, soins palliatifs, conditions d’accès, parcours, rôles et procédure législative.</p>
+      <div class="quick-grid" aria-label="Repères rapides">
+        <div class="quick-card"><strong>6 onglets</strong><span>Navigation interactive.</span></div>
+        <div class="quick-card"><strong>Mobile</strong><span>Affichage adapté au téléphone.</span></div>
+        <div class="quick-card"><strong>GitHub Pages</strong><span>Fichier unique à renommer index.html.</span></div>
+      </div>
+      <div class="hero-actions">
+        <button type="button" data-jump="aide">Commencer par l’aide à mourir</button>
+        <button type="button" data-jump="soins">Voir les soins palliatifs</button>
+        <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">Ouvrir le PAD</a>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Navigation du site">
+        <h2>Navigation</h2>
+        <select class="mobile-select" id="mobileSelect" aria-label="Choisir un onglet">
+          <option value="aide">Aide à mourir</option>
+<option value="soins">Soins palliatifs</option>
+<option value="eligibilite">Qui peut demander ?</option>
+<option value="parcours">Parcours prévu</option>
+<option value="roles">Rôles des acteurs</option>
+<option value="procedure">Procédure législative</option>
+        </select>
+        <div class="search-wrap">
+          <label for="searchInput">Rechercher dans le site</label>
+          <input id="searchInput" type="search" placeholder="Ex. souffrance, ARS, procédure…" autocomplete="off">
+          <div class="empty-state" id="emptyState">Aucun résultat dans l’onglet actuel. Essaie un autre mot ou un autre onglet.</div>
+        </div>
+        <nav class="nav-list">
+          <button class="nav-btn" data-target="aide" aria-controls="panel-aide"><span>Aide à mourir</span><small>Résumé article par article et chronologie de la proposition de loi.</small></button>
+<button class="nav-btn" data-target="soins" aria-controls="panel-soins"><span>Soins palliatifs</span><small>Loi promulguée, articles et chronologie.</small></button>
+<button class="nav-btn" data-target="eligibilite" aria-controls="panel-eligibilite"><span>Qui peut demander ?</span><small>Conditions d’accès, exclusions et points de vigilance.</small></button>
+<button class="nav-btn" data-target="parcours" aria-controls="panel-parcours"><span>Parcours prévu</span><small>Étapes de la demande à la traçabilité.</small></button>
+<button class="nav-btn" data-target="roles" aria-controls="panel-roles"><span>Rôles des acteurs</span><small>Personne malade, proches, professionnels et institutions.</small></button>
+<button class="nav-btn" data-target="procedure" aria-controls="panel-procedure"><span>Procédure législative</span><small>Comprendre la navette parlementaire et les étapes de fabrication de la loi.</small></button>
+        </nav>
+        <div class="tools">
+          <button class="tool-btn" id="expandAll" type="button">Tout ouvrir</button>
+          <button class="tool-btn" id="collapseAll" type="button">Tout fermer</button>
+        </div>
+      </aside>
+      <div class="content">
+        <section class="tab-panel" id="panel-aide" data-panel="aide" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Aide à mourir</h2>
+    <p>Résumé article par article et chronologie de la proposition de loi.</p>
+  </div>
+  <div class="panel-body"><p>
+  Cette page présente le parcours parlementaire et un résumé article par article de la
+  <strong>proposition de loi relative au droit à l’aide à mourir</strong>.
+  Les résumés ci-dessous reprennent uniquement la synthèse article par article réalisée à partir du
+  <strong>texte adopté n° 323 par l’Assemblée nationale en nouvelle lecture le 30 juin 2026</strong>.
+</p>
+
+<div class="callout">
+  <strong>Point d’actualité :</strong>
+  ce texte n’est pas présenté ici comme une loi promulguée.
+  Il s’agit d’une proposition de loi en cours de navette parlementaire.
+  La version de référence utilisée pour les résumés d’articles est le texte adopté par l’Assemblée nationale en nouvelle lecture le
+  <strong>30 juin 2026</strong>.
+</div>
+
+<style>
+  .am-box { margin: 18px 0; }
+  .am-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .am-card {
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px;
+  }
+  .am-card h4 { margin: 0 0 6px; color: #111827; }
+  .am-card p {
+    margin: 0;
+    color: #475467;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+  .am-timeline { display: grid; gap: 10px; margin: 18px 0; }
+  .am-date {
+    border-left: 6px solid #2563eb;
+    background: #eff6ff;
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .am-date strong { color: #1d4ed8; }
+  .am-date p { margin: 4px 0 0; color: #344054; }
+  .am-date a {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .am-date a:hover { background: #dbeafe; text-decoration: none; }
+  .am-links {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .am-links a {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .am-links a:hover { background: #dbeafe; text-decoration: none; }
+  .am-articles details {
+    margin: 12px 0;
+    background: #ffffff;
+    border: 1px solid #d8dee9;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  }
+  .am-articles summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .am-articles summary::-webkit-details-marker { display: none; }
+  .am-articles summary::before {
+    content: "＋";
+    color: #2563eb;
+    font-weight: 900;
+    font-size: 18px;
+  }
+  .am-articles details[open] summary::before { content: "−"; }
+  .am-number { min-width: 90px; color: #1d4ed8; font-weight: 900; }
+  .am-title { color: #111827; }
+  .am-content {
+    padding: 0 18px 16px 42px;
+    color: #344054;
+    line-height: 1.5;
+  }
+  .am-summary {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: 8px 0 12px 0;
+  }
+  .am-exact {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: 10px 0;
+  }
+  .am-vigilance {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: 10px 0;
+  }
+  .question {
+    margin-top: 20px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+</style>
+
+<div class="section">
+  <h3>Grandes dates du parcours parlementaire</h3>
+
+  <div class="am-timeline">
+    <div class="am-date">
+      <strong>11 mars 2025 — Dépôt à l’Assemblée nationale</strong>
+      <p>Proposition de loi n° 1100, déposée par M. Olivier Falorni.</p>
+      <a href="https://www.assemblee-nationale.fr/dyn/17/textes/l17b1100_proposition-loi.pdf" target="_blank" rel="noopener">Consulter le texte déposé n° 1100</a>
+    </div>
+
+    <div class="am-date">
+      <strong>27 mai 2025 — Première adoption par l’Assemblée nationale</strong>
+      <p>Texte adopté n° 122, puis transmission au Sénat.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>Première lecture au Sénat — Texte n° 661</strong>
+      <p>Texte transmis au Sénat après la première adoption par l’Assemblée nationale.</p>
+      <a href="https://www.senat.fr/leg/ppl24-661.pdf" target="_blank" rel="noopener">Consulter le texte Sénat n° 661</a>
+    </div>
+
+    <div class="am-date">
+      <strong>28 janvier 2026 — Rejet par le Sénat en première lecture</strong>
+      <p>Le texte est rejeté par le Sénat, ce qui entraîne une deuxième lecture à l’Assemblée nationale.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>25 février 2026 — Deuxième adoption par l’Assemblée nationale</strong>
+      <p>Texte adopté n° 243, puis nouvelle transmission au Sénat.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>Deuxième lecture au Sénat — Texte n° 440</strong>
+      <p>Texte transmis au Sénat pour la deuxième lecture.</p>
+      <a href="https://www.senat.fr/leg/ppl25-440.pdf" target="_blank" rel="noopener">Consulter le texte Sénat n° 440</a>
+    </div>
+
+    <div class="am-date">
+      <strong>12 mai 2026 — Rejet par le Sénat en deuxième lecture</strong>
+      <p>Le désaccord persiste entre les deux chambres.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>2 juin 2026 — Commission mixte paritaire non conclusive</strong>
+      <p>La commission mixte paritaire ne parvient pas à établir un texte commun.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>30 juin 2026 — Nouvelle lecture à l’Assemblée nationale</strong>
+      <p>Adoption du texte n° 323 par l’Assemblée nationale.</p>
+    </div>
+
+    <div class="am-date">
+      <strong>Juillet 2026 — Nouvelle lecture au Sénat</strong>
+      <p>Transmission du texte n° 814 au Sénat et poursuite de la discussion parlementaire.</p>
+      <a href="https://www.senat.fr/leg/ppl25-814.pdf" target="_blank" rel="noopener">Consulter le texte Sénat n° 814</a>
+    </div>
+  </div>
+
+  <div class="am-links">
+    <a href="https://www.assemblee-nationale.fr/dyn/17/textes/l17b1100_proposition-loi.pdf" target="_blank" rel="noopener">Assemblée nationale — proposition n° 1100</a>
+    <a href="https://www.senat.fr/leg/ppl24-661.pdf" target="_blank" rel="noopener">Sénat — texte n° 661</a>
+    <a href="https://www.senat.fr/leg/ppl25-440.pdf" target="_blank" rel="noopener">Sénat — texte n° 440</a>
+    <a href="https://www.senat.fr/leg/ppl25-814.pdf" target="_blank" rel="noopener">Sénat — texte n° 814</a>
+    <a href="https://www.senat.fr/tableau-historique/ppl24-661.html" target="_blank" rel="noopener">Tableau historique du Sénat</a>
+    <a href="https://www.senat.fr/dossier-legislatif/ppl24-661.html" target="_blank" rel="noopener">Dossier législatif Sénat</a>
+    <a href="https://www.assemblee-nationale.fr/dyn/17/textes/l17t0323_texte-adopte-seance" target="_blank" rel="noopener">Texte adopté n° 323</a>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">PAD questions</a>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Repères de lecture</h3>
+
+  <div class="am-grid">
+    <div class="am-card">
+      <h4>Définition</h4>
+      <p>Le texte définit un droit à l’aide à mourir, avec recours à une substance létale dans des conditions prévues par la loi.</p>
+    </div>
+    <div class="am-card">
+      <h4>Conditions d’accès</h4>
+      <p>Les conditions portent notamment sur l’âge, la résidence ou la nationalité, l’affection grave et incurable, la souffrance et la volonté libre et éclairée.</p>
+    </div>
+    <div class="am-card">
+      <h4>Procédure</h4>
+      <p>La demande passe par un médecin, une information préalable, une procédure collégiale, une décision motivée et une confirmation.</p>
+    </div>
+    <div class="am-card">
+      <h4>Contrôle</h4>
+      <p>Le texte prévoit une traçabilité par système d’information et une commission de contrôle et d’évaluation.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Résumé précis de chaque article</h3>
+  <p>
+    Chaque bloc ci-dessous reprend le contenu de l’article de manière synthétique, sans ajout d’interprétation.
+  </p>
+</div>
+
+<div class="am-articles">
+
+  <details>
+    <summary><span class="am-number">Article 1er</span><span class="am-title">Intitulé du chapitre du Code de la santé publique</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> modifie l’intitulé d’un chapitre du code de la santé publique pour y ajouter la notion d’« expression de leur volonté et fin de vie ».</div></div>
+  </details>
+
+  <details open>
+    <summary><span class="am-number">Article 2</span><span class="am-title">Définition du droit à l’aide à mourir</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> crée une nouvelle section du code de la santé publique intitulée « Droit à l’aide à mourir ». L’aide à mourir est définie comme le droit, pour une personne qui en fait la demande, d’être autorisée à recourir à une substance létale.</div>
+      <div class="am-exact"><strong>Précision :</strong> la personne s’administre elle-même la substance ou, si elle n’est pas physiquement en mesure de le faire, elle peut se la faire administrer par un médecin ou un infirmier.</div>
+      <div class="am-vigilance"><strong>Responsabilité pénale :</strong> les personnes qui participent à cette procédure, dans les conditions prévues par la loi, ne sont pas pénalement responsables.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 3</span><span class="am-title">Information compréhensible sur l’aide à mourir</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> ajoute que le droit du patient comprend la possibilité d’accéder à l’aide à mourir dans les conditions prévues par la loi, ainsi que le droit de recevoir une information compréhensible sur cette aide.</div></div>
+  </details>
+
+  <details open>
+    <summary><span class="am-number">Article 4</span><span class="am-title">Conditions cumulatives d’accès</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> fixe les conditions cumulatives pour accéder à l’aide à mourir.</div>
+      <div class="am-exact"><strong>Conditions :</strong> la personne doit avoir au moins 18 ans ; être française ou résider de manière stable et régulière en France ; être atteinte d’une affection grave et incurable engageant le pronostic vital, en phase avancée ou terminale ; présenter une souffrance liée à cette affection, soit réfractaire aux traitements, soit jugée insupportable lorsqu’elle refuse ou arrête un traitement ; être capable d’exprimer une volonté libre et éclairée.</div>
+      <div class="am-vigilance"><strong>Limite explicite :</strong> une souffrance psychologique seule ne permet jamais d’accéder à l’aide à mourir.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 5</span><span class="am-title">Demande initiale, information et formalisation</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> décrit la première étape de la demande. La personne fait sa demande à un médecin en activité, qui ne doit pas avoir de lien familial, conjugal ou patrimonial avec elle.</div>
+      <div class="am-exact"><strong>Modalités :</strong> la demande et sa confirmation ne peuvent pas être faites en téléconsultation. Si la personne ne peut pas se déplacer, le médecin se rend auprès d’elle.</div>
+      <div class="am-exact"><strong>Informations données :</strong> le médecin informe la personne sur son état de santé, l’évolution prévisible, les traitements disponibles, les soins palliatifs, l’accompagnement psychologique ou psychiatrique possible, la possibilité de renoncer à tout moment, ainsi que les conditions et modalités de l’aide à mourir.</div>
+      <div class="am-exact"><strong>Formalisation :</strong> après ces informations, la personne formalise sa demande par écrit ou par un mode d’expression adapté à ses capacités.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 6</span><span class="am-title">Vérification des conditions, procédure collégiale et décision</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> organise la vérification des conditions d’accès. Le médecin vérifie que la personne remplit les conditions prévues à l’article 4.</div>
+      <div class="am-vigilance"><strong>Discernement :</strong> une personne dont le discernement est gravement altéré pendant la démarche ne peut pas être considérée comme exprimant une volonté libre et éclairée.</div>
+      <div class="am-exact"><strong>Procédure collégiale :</strong> le médecin met en place une procédure collégiale pour vérifier les conditions médicales, la souffrance et la volonté libre et éclairée. Le collège comprend au moins le médecin qui instruit la demande, un médecin spécialiste de la pathologie extérieur au traitement de la personne et sans lien hiérarchique avec le premier médecin, ainsi qu’un auxiliaire médical ou un aide-soignant intervenant dans la prise en charge, ou à défaut un autre auxiliaire médical.</div>
+      <div class="am-exact"><strong>Décision et confirmation :</strong> le médecin rend une décision motivée dans un délai de quinze jours à partir de la demande formalisée. Après notification, la personne doit respecter un délai de réflexion d’au moins deux jours avant de confirmer sa demande d’administration de la substance létale. Si la confirmation intervient plus de trois mois après la décision, le médecin réévalue la volonté libre et éclairée.</div>
+      <div class="am-vigilance"><strong>Téléconsultation :</strong> la procédure ne peut pas être réalisée par des sociétés de téléconsultation.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 7</span><span class="am-title">Date, lieu et présence des proches</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> précise l’organisation de la date et du lieu d’administration. La personne fixe la date avec le médecin ou l’infirmier chargé de l’accompagner.</div>
+      <div class="am-exact"><strong>Délai de trois mois :</strong> si la date est prévue plus de trois mois après la décision, une nouvelle évaluation de la volonté libre et éclairée est réalisée.</div>
+      <div class="am-exact"><strong>Lieu :</strong> l’administration peut avoir lieu au domicile, dans la résidence d’un proche, dans un établissement de santé, dans un établissement médico-social ou dans une autre structure où exercent des professionnels de santé.</div>
+      <div class="am-exact"><strong>Présence des proches :</strong> la personne peut être entourée par les personnes de son choix. Le professionnel de santé informe ces personnes et peut les orienter vers un accompagnement psychologique.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 8</span><span class="am-title">Préparation et délivrance de la substance létale</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> décrit la préparation et la délivrance de la substance létale.</div>
+      <div class="am-exact"><strong>Circuit :</strong> lorsque la date est fixée, elle est communiquée à la pharmacie à usage intérieur compétente. Cette pharmacie prépare la substance létale et la délivre au médecin ou à l’infirmier chargé d’accompagner la personne. Elle peut aussi la transmettre à une pharmacie d’officine désignée, qui la délivre ensuite au professionnel de santé.</div>
+      <div class="am-exact"><strong>Délai :</strong> les pharmacies doivent agir dans un délai permettant l’administration à la date prévue.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 9</span><span class="am-title">Déroulement le jour de l’administration</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> décrit le déroulement le jour de l’administration.</div>
+      <div class="am-exact"><strong>Vérification :</strong> le médecin ou l’infirmier doit vérifier que la personne confirme sa volonté et s’assurer qu’elle ne subit aucune pression pour procéder ou pour renoncer.</div>
+      <div class="am-vigilance"><strong>Pressions :</strong> s’il constate des pressions pour procéder à l’administration, il suspend la procédure et en informe le médecin qui a instruit la demande. Ce médecin décide ensuite de la poursuite ou de l’arrêt de la procédure.</div>
+      <div class="am-exact"><strong>Administration :</strong> le professionnel prépare, si nécessaire, l’administration de la substance létale, surveille l’administration par la personne ou l’administre lui-même si la personne ne peut pas le faire. Si la personne demande un report, la procédure est suspendue et une nouvelle date peut être fixée.</div>
+      <div class="am-exact"><strong>Après l’administration :</strong> la présence du professionnel aux côtés de la personne n’est plus obligatoire, mais il reste dans la même pièce pour intervenir en cas de difficulté. La préparation non utilisée ou partiellement utilisée doit être rapportée à la pharmacie, puis détruite. Le professionnel rédige un compte rendu.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 10</span><span class="am-title">Fin de la procédure</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> fixe les situations dans lesquelles la procédure prend fin.</div>
+      <div class="am-exact"><strong>Cas d’arrêt :</strong> la procédure s’arrête si la personne renonce à l’aide à mourir ; si le médecin apprend que les conditions ne sont pas ou ne sont plus remplies ; si des pressions pour procéder à l’administration sont constatées ; ou si la personne refuse l’administration de la substance létale.</div>
+      <div class="am-vigilance"><strong>Signalement :</strong> en cas de pressions pour recourir à l’aide à mourir, le médecin signale les faits au procureur de la République.</div>
+      <div class="am-exact"><strong>Nouvelle demande :</strong> toute nouvelle demande doit reprendre la procédure depuis le début.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 11</span><span class="am-title">Traçabilité et système d’information</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> prévoit l’enregistrement de chaque étape de la procédure dans un système d’information sécurisé. Les informations enregistrées doivent permettre la traçabilité, la protection des données et le traitement statistique.</div></div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 12</span><span class="am-title">Voies de contestation</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> précise les voies de contestation.</div>
+      <div class="am-exact"><strong>Recours principal :</strong> la décision du médecin sur la demande d’aide à mourir, ainsi que la décision de mettre fin à la procédure, peuvent être contestées uniquement par la personne qui a demandé l’aide à mourir, devant la juridiction administrative.</div>
+      <div class="am-exact"><strong>Personne protégée :</strong> si la personne fait l’objet d’une mesure de protection juridique, la personne chargée de cette mesure peut contester la décision autorisant l’aide à mourir dans un délai de deux jours. La saisine du juge administratif peut suspendre la procédure.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 13</span><span class="am-title">Décret en Conseil d’État</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> prévoit qu’un décret en Conseil d’État précisera les conditions d’application de la procédure.</div>
+      <div class="am-exact"><strong>Contenu du décret :</strong> ce décret portera notamment sur l’information de la personne, la forme et le contenu de la demande, la confirmation de la demande, la vérification des conditions d’accès et l’accès au registre des mesures de protection juridique.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 14</span><span class="am-title">Clause de conscience</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> crée une clause de conscience pour les professionnels de santé. Les professionnels concernés ne sont pas obligés de participer à la procédure d’aide à mourir.</div>
+      <div class="am-exact"><strong>Refus :</strong> s’ils refusent, ils doivent informer sans délai la personne ou le professionnel qui les sollicite et communiquer le nom de professionnels disposés à participer à la procédure.</div>
+      <div class="am-exact"><strong>Établissements :</strong> les établissements de santé, sociaux ou médico-sociaux doivent permettre l’intervention des professionnels de santé participant à la procédure et l’accès des personnes choisies par le patient.</div>
+      <div class="am-exact"><strong>Déclaration :</strong> les professionnels disposés à participer doivent se déclarer auprès de la commission de contrôle et d’évaluation.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 15</span><span class="am-title">Commission de contrôle et d’évaluation</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> crée une commission de contrôle et d’évaluation placée auprès du ministre chargé de la santé.</div>
+      <div class="am-exact"><strong>Missions :</strong> elle est chargée de contrôler a posteriori chaque procédure d’aide à mourir, de suivre et d’évaluer l’application de la loi, d’informer chaque année le Gouvernement et le Parlement, de formuler des recommandations et de tenir un registre des professionnels de santé volontaires.</div>
+      <div class="am-vigilance"><strong>Signalements :</strong> si la commission constate un possible manquement professionnel ou déontologique, elle saisit l’ordre compétent. Si elle estime que les faits peuvent constituer un crime ou un délit, elle les signale au procureur de la République.</div>
+      <div class="am-exact"><strong>Données :</strong> elle est responsable du système d’information utilisé pour enregistrer les données de procédure. Elle peut accéder à certaines données médicales dans la mesure nécessaire à ses missions.</div>
+      <div class="am-exact"><strong>Composition minimale :</strong> la commission comprend au moins deux médecins, un membre du Conseil d’État, un membre de la Cour de cassation, deux représentants d’associations agréées d’usagers du système de santé et deux personnalités qualifiées en sciences humaines et sociales.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 16</span><span class="am-title">Substances létales et recommandations de bonnes pratiques</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> confie à la Haute Autorité de santé la mission de définir les substances létales pouvant être utilisées et d’élaborer des recommandations de bonnes pratiques.</div>
+      <div class="am-exact"><strong>Encadrement :</strong> l’article modifie aussi le code de la santé publique pour encadrer les préparations magistrales létales, leur préparation, leur transmission et leur évaluation éventuelle par l’Agence nationale de sécurité du médicament et des produits de santé.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 17</span><span class="am-title">Dispositions pénales</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> supprimé.</div></div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 18</span><span class="am-title">Prise en charge financière</span></summary>
+    <div class="am-content">
+      <div class="am-summary"><strong>Résumé :</strong> prévoit la prise en charge des frais liés à la procédure d’aide à mourir par la sécurité sociale. Les frais concernés sont exonérés de participation de l’assuré et de franchise.</div>
+      <div class="am-exact"><strong>Honoraires :</strong> les honoraires des professionnels de santé intervenant dans la procédure ne peuvent pas donner lieu à dépassement.</div>
+      <div class="am-exact"><strong>Arrêté :</strong> un arrêté doit fixer les prix de cession des préparations létales ainsi que les rémunérations des professionnels.</div>
+      <div class="am-exact"><strong>Codage et rémunération :</strong> les actes réalisés dans le cadre de la procédure doivent recevoir un code spécifique. Aucune rémunération ou gratification supplémentaire, en dehors de celles prévues, ne peut être accordée en échange d’un service dans le cadre de la procédure.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 19</span><span class="am-title">Assurance décès</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> modifie le code des assurances et le code de la mutualité. Il prévoit que les assurances décès couvrent le décès résultant de l’aide à mourir. Cette règle s’applique aussi aux contrats en cours au moment de l’entrée en vigueur de la loi.</div></div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 19 bis</span><span class="am-title">Application et adaptation outre-mer</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> autorise le Gouvernement à prendre par ordonnance, dans un délai d’un an, les mesures nécessaires pour étendre et adapter la loi à la Nouvelle-Calédonie, à la Polynésie française et à Wallis-et-Futuna. Il prévoit aussi des adaptations pour Saint-Pierre-et-Miquelon et Mayotte. Un projet de loi de ratification devra être déposé dans les trois mois suivant la publication de l’ordonnance.</div></div>
+  </details>
+
+  <details>
+    <summary><span class="am-number">Article 20</span><span class="am-title">Article supprimé</span></summary>
+    <div class="am-content"><div class="am-summary"><strong>Résumé :</strong> supprimé.</div></div>
+  </details>
+
+</div>
+
+<div class="section">
+  <h3>Synthèse générale</h3>
+  <div class="am-grid">
+    <div class="am-card"><h4>Objet</h4><p>Création d’un droit à l’aide à mourir encadré par le code de la santé publique.</p></div>
+    <div class="am-card"><h4>Accès</h4><p>Conditions cumulatives liées à l’âge, la résidence ou nationalité, l’état médical, la souffrance et la volonté libre et éclairée.</p></div>
+    <div class="am-card"><h4>Procédure</h4><p>Demande au médecin, information, procédure collégiale, décision motivée, délai de réflexion et confirmation.</p></div>
+    <div class="am-card"><h4>Administration</h4><p>Administration par la personne elle-même ou, si elle n’est pas physiquement en mesure de le faire, par un médecin ou un infirmier.</p></div>
+    <div class="am-card"><h4>Garanties</h4><p>Possibilité de renoncer, contrôle des pressions, recours, traçabilité et contrôle a posteriori.</p></div>
+    <div class="am-card"><h4>Professionnels</h4><p>Clause de conscience, déclaration des professionnels volontaires et encadrement du circuit pharmaceutique.</p></div>
+    <div class="am-card"><h4>Financement</h4><p>Prise en charge par la sécurité sociale, sans participation de l’assuré ni franchise, et sans dépassement d’honoraires.</p></div>
+    <div class="am-card"><h4>Articles supprimés</h4><p>Les articles 17 et 20 sont supprimés dans la version de référence.</p></div>
+  </div>
+</div>
+
+<div class="question">
+  <strong>Questions à déposer dans le PAD :</strong>
+  <p>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">
+      Ouvrir le PAD pour ajouter une question
+    </a>
+  </p>
+</div></div>
+</section>
+<section class="tab-panel" id="panel-soins" data-panel="soins" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Soins palliatifs</h2>
+    <p>Loi promulguée, articles et chronologie.</p>
+  </div>
+  <div class="panel-body"><p>
   Cette page présente le parcours et l’évolution des articles de la
   <strong>loi n° 2026-404 du 26 mai 2026 visant à garantir l’égal accès de tous à l’accompagnement et aux soins palliatifs</strong>.
   Contrairement à la proposition de loi relative à l’aide à mourir, ce texte est <strong>déjà promulgué</strong>
@@ -942,6 +1561,2008 @@
       Ouvrir le PAD pour ajouter une question
     </a>
   </p>
+</div></div>
+</section>
+<section class="tab-panel" id="panel-eligibilite" data-panel="eligibilite" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Qui peut demander ?</h2>
+    <p>Conditions d’accès, exclusions et points de vigilance.</p>
+  </div>
+  <div class="panel-body"><p>
+  Cette page permet de comprendre rapidement <strong>qui peut demander l’aide à mourir</strong>,
+  <strong>qui ne peut pas</strong>, et quels points doivent être vérifiés avant toute poursuite de la procédure.
+</p>
+
+<div class="callout">
+  <strong>Principe simple :</strong>
+  la demande n’est possible que si <strong>toutes les conditions prévues par le texte sont réunies</strong>.
+  Une seule condition manquante suffit à empêcher l’accès à l’aide à mourir.
 </div>
+
+<style>
+  .eligibility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .eligibility-card {
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  }
+
+  .eligibility-card h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #111827;
+  }
+
+  .eligibility-card p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  .ok-card {
+    border-left: 6px solid #059669;
+    background: #ecfdf3;
+  }
+
+  .no-card {
+    border-left: 6px solid #dc2626;
+    background: #fef2f2;
+  }
+
+  .warning-card {
+    border-left: 6px solid #ea580c;
+    background: #fff7ed;
+  }
+
+  .neutral-card {
+    border-left: 6px solid #2563eb;
+    background: #eff6ff;
+  }
+
+  .badge-ok,
+  .badge-no,
+  .badge-warn,
+  .badge-info {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+
+  .badge-ok {
+    color: #047857;
+    background: #d1fae5;
+  }
+
+  .badge-no {
+    color: #b91c1c;
+    background: #fee2e2;
+  }
+
+  .badge-warn {
+    color: #c2410c;
+    background: #ffedd5;
+  }
+
+  .badge-info {
+    color: #1d4ed8;
+    background: #dbeafe;
+  }
+
+  .flow {
+    display: grid;
+    gap: 10px;
+    margin: 18px 0;
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px;
+    border: 1px solid #d8dee9;
+    border-radius: 16px;
+    background: #ffffff;
+  }
+
+  .flow-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: #111827;
+    color: white;
+    font-weight: 900;
+  }
+
+  .flow-step h4 {
+    margin: 0 0 5px;
+    color: #111827;
+  }
+
+  .flow-step p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+  }
+
+  .case-box {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 15px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  .case-box strong {
+    color: #111827;
+  }
+
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .decision-table th,
+  .decision-table td {
+    border: 1px solid #d8dee9;
+    padding: 10px;
+    vertical-align: top;
+  }
+
+  .decision-table th {
+    background: #f1f5f9;
+    color: #111827;
+    text-align: left;
+  }
+
+  .decision-table td {
+    background: #ffffff;
+    color: #344054;
+  }
+
+  .mini-alert {
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    margin: 12px 0;
+  }
+
+  .mini-success {
+    padding: 12px;
+    border-radius: 14px;
+    background: #ecfdf3;
+    border: 1px solid #99f6e4;
+    margin: 12px 0;
+  }
+</style>
+
+<div class="section">
+  <h3>En une phrase</h3>
+
+  <div class="mini-success">
+    <strong>Peut demander :</strong>
+    une personne majeure, française ou résidant régulièrement en France, atteinte d’une affection grave et incurable
+    engageant le pronostic vital, en phase avancée ou terminale, avec une souffrance liée à cette affection,
+    et capable d’exprimer une volonté libre et éclairée.
+  </div>
+
+  <div class="mini-alert">
+    <strong>Ne peut pas demander :</strong>
+    une personne mineure, une personne dont la souffrance est uniquement psychologique,
+    une personne dont le discernement est gravement altéré, ou une personne qui ne remplit pas l’une des conditions cumulatives.
+  </div>
+</div>
+
+<div class="section">
+  <h3>Les 5 conditions à vérifier</h3>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>
+        <h4>Être majeur</h4>
+        <p>La personne doit être âgée d’au moins <strong>18 ans</strong>.</p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <h4>Avoir un lien stable avec la France</h4>
+        <p>La personne doit être de <strong>nationalité française</strong> ou résider de façon <strong>stable et régulière</strong> en France.</p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div>
+        <h4>Être atteint d’une affection grave et incurable</h4>
+        <p>L’affection peut avoir n’importe quelle cause, mais elle doit être <strong>grave</strong>, <strong>incurable</strong> et engager le <strong>pronostic vital</strong>.</p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <h4>Être en phase avancée ou terminale</h4>
+        <p>
+          La phase avancée correspond à un <strong>processus irréversible</strong> marqué par l’aggravation de l’état de santé,
+          qui affecte la qualité de vie. La phase terminale correspond à une situation de fin de vie plus proche.
+        </p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div>
+        <h4>Exprimer une volonté libre et éclairée</h4>
+        <p>
+          La personne doit pouvoir comprendre l’information, exprimer une demande personnelle,
+          et ne pas subir de pression. Un discernement gravement altéré empêche de reconnaître cette volonté.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Lecture visuelle : feu vert / feu rouge / vigilance</h3>
+
+  <div class="eligibility-grid">
+    <div class="eligibility-card ok-card">
+      <span class="badge-ok">POTENTIELLEMENT ÉLIGIBLE</span>
+      <h4>Personne majeure</h4>
+      <p>Elle a au moins 18 ans et peut donc entrer dans le champ du texte si les autres conditions sont aussi réunies.</p>
+    </div>
+
+    <div class="eligibility-card ok-card">
+      <span class="badge-ok">POTENTIELLEMENT ÉLIGIBLE</span>
+      <h4>Maladie grave et incurable</h4>
+      <p>La maladie engage le pronostic vital et se situe en phase avancée ou terminale.</p>
+    </div>
+
+    <div class="eligibility-card ok-card">
+      <span class="badge-ok">POTENTIELLEMENT ÉLIGIBLE</span>
+      <h4>Souffrance liée à la maladie</h4>
+      <p>La souffrance est liée à l’affection et est réfractaire aux traitements ou jugée insupportable par la personne.</p>
+    </div>
+
+    <div class="eligibility-card no-card">
+      <span class="badge-no">NON ÉLIGIBLE</span>
+      <h4>Personne mineure</h4>
+      <p>Le texte prévoit explicitement un âge minimal de 18 ans.</p>
+    </div>
+
+    <div class="eligibility-card no-card">
+      <span class="badge-no">NON ÉLIGIBLE</span>
+      <h4>Souffrance psychologique seule</h4>
+      <p>Une souffrance psychologique seule ne peut en aucun cas permettre de bénéficier de l’aide à mourir.</p>
+    </div>
+
+    <div class="eligibility-card no-card">
+      <span class="badge-no">NON ÉLIGIBLE</span>
+      <h4>Discernement gravement altéré</h4>
+      <p>La personne ne peut pas être reconnue comme manifestant une volonté libre et éclairée.</p>
+    </div>
+
+    <div class="eligibility-card warning-card">
+      <span class="badge-warn">À VÉRIFIER</span>
+      <h4>Personne protégée</h4>
+      <p>La demande n’est pas automatiquement exclue, mais la situation juridique doit être vérifiée et l’information adaptée.</p>
+    </div>
+
+    <div class="eligibility-card warning-card">
+      <span class="badge-warn">À VÉRIFIER</span>
+      <h4>Pression de l’entourage</h4>
+      <p>La demande doit être libre. Toute pression familiale, sociale, institutionnelle ou économique doit être recherchée.</p>
+    </div>
+
+    <div class="eligibility-card warning-card">
+      <span class="badge-warn">À VÉRIFIER</span>
+      <h4>Demande fluctuante</h4>
+      <p>Une demande peut varier selon la douleur, la fatigue, l’annonce, l’angoisse, la solitude ou le soutien disponible.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Cas concrets à anticiper</h3>
+
+  <div class="case-box">
+    <strong>Cas 1 — “Je veux mourir parce que je souffre trop.”</strong><br>
+    Ne pas conclure immédiatement à une demande d’aide à mourir.
+    Il faut d’abord comprendre la souffrance : douleur, angoisse, perte d’autonomie, solitude, peur de l’agonie,
+    sentiment d’être une charge, défaut d’accès aux soins palliatifs.
+  </div>
+
+  <div class="case-box">
+    <strong>Cas 2 — “Je veux l’aide à mourir mais je ne peux pas écrire.”</strong><br>
+    La demande peut être formalisée par un autre mode d’expression adapté aux capacités de la personne.
+  </div>
+
+  <div class="case-box">
+    <strong>Cas 3 — “Je suis sous tutelle / curatelle / mesure de protection.”</strong><br>
+    Ce n’est pas automatiquement exclu. Le médecin doit vérifier la mesure, adapter l’information,
+    et informer la personne chargée de la mesure dans les conditions prévues.
+  </div>
+
+  <div class="case-box">
+    <strong>Cas 4 — “Ma famille veut que je le fasse.”</strong><br>
+    C’est un point d’alerte majeur. La procédure exige une volonté libre.
+    Toute pression doit être recherchée, tracée et peut conduire à une suspension ou un arrêt.
+  </div>
+
+  <div class="case-box">
+    <strong>Cas 5 — “Je ne veux plus de traitement.”</strong><br>
+    Le refus ou l’arrêt d’un traitement est un droit distinct.
+    L’aide à mourir ne devient possible que si les conditions propres au texte sont réunies.
+  </div>
+</div>
+
+<div class="question">
+  <strong>Questions à déposer dans le PAD :</strong>
+  <ul>
+   
+  <p>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">
+      Ouvrir le PAD pour ajouter une question
+    </a>
+  </p>
+</div></div>
+</section>
+<section class="tab-panel" id="panel-parcours" data-panel="parcours" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Parcours prévu</h2>
+    <p>Étapes de la demande à la traçabilité.</p>
+  </div>
+  <div class="panel-body"><p>
+  Cette page présente le <strong>parcours prévu par la proposition de loi relative au droit à l’aide à mourir</strong>,
+  depuis l’expression de la demande jusqu’à la traçabilité et au contrôle a posteriori.
+</p>
+
+<div class="callout">
+  <strong>Principe simple :</strong>
+  le parcours n’est pas immédiat. Il comporte plusieurs étapes obligatoires :
+  information de la personne, formalisation de la demande, procédure collégiale, décision médicale,
+  délai de réflexion, confirmation, organisation pratique, puis traçabilité.
+</div>
+
+<style>
+  .parcours-map {
+    display: grid;
+    gap: 14px;
+    margin: 18px 0;
+  }
+
+  .parcours-step {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px;
+    border-radius: 18px;
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    position: relative;
+  }
+
+  .parcours-step:not(:last-child)::after {
+    content: "↓";
+    position: absolute;
+    left: 29px;
+    bottom: -18px;
+    color: #64748b;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .parcours-num {
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 16px;
+    background: #111827;
+  }
+
+  .parcours-step h4 {
+    margin: 0 0 6px;
+    color: #111827;
+    font-size: 17px;
+  }
+
+  .parcours-step p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  .parcours-step ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+  }
+
+  .parcours-step li {
+    margin: 5px 0;
+    color: #344054;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .step-blue {
+    border-left: 7px solid #2563eb;
+    background: #eff6ff;
+  }
+
+  .step-green {
+    border-left: 7px solid #059669;
+    background: #ecfdf3;
+  }
+
+  .step-purple {
+    border-left: 7px solid #7c3aed;
+    background: #f5f3ff;
+  }
+
+  .step-orange {
+    border-left: 7px solid #ea580c;
+    background: #fff7ed;
+  }
+
+  .step-red {
+    border-left: 7px solid #dc2626;
+    background: #fef2f2;
+  }
+
+  .parcours-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    background: #f1f5f9;
+    color: #334155;
+  }
+
+  .parcours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .parcours-card {
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  }
+
+  .parcours-card h4 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 16px;
+  }
+
+  .parcours-card p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  .parcours-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .parcours-table th,
+  .parcours-table td {
+    border: 1px solid #d8dee9;
+    padding: 10px;
+    vertical-align: top;
+  }
+
+  .parcours-table th {
+    background: #f1f5f9;
+    color: #111827;
+    text-align: left;
+  }
+
+  .parcours-table td {
+    background: #ffffff;
+    color: #344054;
+  }
+
+  .parcours-case {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 15px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  .parcours-case strong {
+    color: #111827;
+  }
+
+  .parcours-alert {
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    margin: 12px 0;
+  }
+
+  .parcours-success {
+    padding: 12px;
+    border-radius: 14px;
+    background: #ecfdf3;
+    border: 1px solid #99f6e4;
+    margin: 12px 0;
+  }
+</style>
+
+<div class="section">
+  <h3>Vue d’ensemble du parcours</h3>
+
+  <div class="parcours-map">
+
+    <div class="parcours-step step-blue">
+      <div class="parcours-num">1</div>
+      <div>
+        <span class="parcours-badge">DEMANDE</span>
+        <h4>La personne exprime une demande</h4>
+        <p>
+          La personne malade formule une demande auprès d’un <strong>médecin en activité</strong>.
+          Cette demande ne peut pas être présentée en téléconsultation.
+        </p>
+        <ul>
+          <li>La demande vient de la personne elle-même.</li>
+          <li>Le médecin ne doit pas avoir certains liens familiaux, conjugaux ou patrimoniaux avec elle.</li>
+          <li>Si la personne ne peut pas se déplacer, le médecin se rend auprès d’elle.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-green">
+      <div class="parcours-num">2</div>
+      <div>
+        <span class="parcours-badge">INFORMATION</span>
+        <h4>Le médecin informe la personne</h4>
+        <p>
+          Le médecin explique la situation médicale, l’évolution prévisible, les traitements disponibles,
+          les dispositifs d’accompagnement et les soins palliatifs.
+        </p>
+        <ul>
+          <li>Information sur l’état de santé.</li>
+          <li>Information sur les traitements et les alternatives.</li>
+          <li>Information sur l’accompagnement et les soins palliatifs.</li>
+          <li>Proposition d’une orientation vers psychologue ou psychiatre pour la personne et ses proches.</li>
+          <li>Rappel que la personne peut renoncer à tout moment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-purple">
+      <div class="parcours-num">3</div>
+      <div>
+        <span class="parcours-badge">FORMALISATION</span>
+        <h4>La demande est formalisée</h4>
+        <p>
+          Si la personne maintient sa demande après information, celle-ci est formalisée
+          <strong>par écrit</strong> ou par un <strong>mode d’expression adapté</strong>.
+        </p>
+        <ul>
+          <li>La personne peut écrire elle-même.</li>
+          <li>Si elle ne peut pas écrire, un autre mode d’expression adapté peut être utilisé.</li>
+          <li>La demande formalisée déclenche le délai d’instruction de la décision.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-green">
+      <div class="parcours-num">4</div>
+      <div>
+        <span class="parcours-badge">COLLÉGIALITÉ</span>
+        <h4>Le médecin organise une procédure collégiale</h4>
+        <p>
+          Le médecin vérifie les conditions d’accès avec l’appui d’un collège pluriprofessionnel.
+        </p>
+        <ul>
+          <li>Médecin saisi par la personne.</li>
+          <li>Médecin spécialiste de la pathologie, n’intervenant pas dans le traitement.</li>
+          <li>Auxiliaire médical ou aide-soignant intervenant auprès de la personne, ou autre professionnel selon les cas.</li>
+          <li>D’autres professionnels peuvent être conviés, notamment psychologues ou professionnels médico-sociaux.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-orange">
+      <div class="parcours-num">5</div>
+      <div>
+        <span class="parcours-badge">DÉCISION</span>
+        <h4>Le médecin prend une décision motivée</h4>
+        <p>
+          Après la procédure collégiale, le médecin prend une décision.
+          Elle doit être <strong>motivée</strong> et notifiée à la personne <strong>oralement et par écrit</strong>.
+        </p>
+        <ul>
+          <li>Délai maximal : <strong>15 jours</strong> à compter de la formalisation de la demande.</li>
+          <li>Si les conditions sont remplies, la personne peut confirmer après un délai de réflexion.</li>
+          <li>Si les conditions ne sont pas remplies, la procédure s’arrête.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-blue">
+      <div class="parcours-num">6</div>
+      <div>
+        <span class="parcours-badge">RÉFLEXION</span>
+        <h4>La personne dispose d’un délai de réflexion</h4>
+        <p>
+          Après notification d’une décision favorable, la personne doit respecter un délai de réflexion
+          d’au moins <strong>2 jours</strong> avant de confirmer sa demande.
+        </p>
+        <ul>
+          <li>Elle peut confirmer.</li>
+          <li>Elle peut reporter.</li>
+          <li>Elle peut renoncer.</li>
+          <li>Elle peut poser de nouvelles questions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-purple">
+      <div class="parcours-num">7</div>
+      <div>
+        <span class="parcours-badge">CONFIRMATION</span>
+        <h4>La personne confirme sa demande</h4>
+        <p>
+          La confirmation permet de passer à l’organisation concrète.
+          Si elle intervient plus de <strong>3 mois</strong> après la décision, une réévaluation est nécessaire.
+        </p>
+        <ul>
+          <li>Le médecin réévalue la volonté libre et éclairée si nécessaire.</li>
+          <li>La procédure peut être reprise si besoin.</li>
+          <li>La personne conserve la possibilité de renoncer à tout moment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-green">
+      <div class="parcours-num">8</div>
+      <div>
+        <span class="parcours-badge">ORGANISATION</span>
+        <h4>Date, lieu, proches et pharmacie sont organisés</h4>
+        <p>
+          La personne convient d’une date avec le médecin ou l’infirmier.
+          Le lieu est déterminé avec le professionnel. Les personnes présentes sont choisies par la personne.
+        </p>
+        <ul>
+          <li>Domicile ou résidence de la personne.</li>
+          <li>Résidence d’un proche.</li>
+          <li>Établissement de santé.</li>
+          <li>Établissement médico-social.</li>
+          <li>Autre structure où exercent des professionnels de santé.</li>
+          <li>Prescription et circuit pharmaceutique de la substance létale.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-red">
+      <div class="parcours-num">9</div>
+      <div>
+        <span class="parcours-badge">JOUR PRÉVU</span>
+        <h4>Le professionnel vérifie, accompagne et surveille</h4>
+        <p>
+          Le jour prévu, le médecin ou l’infirmier vérifie que la personne confirme sa volonté
+          et qu’elle ne subit pas de pression.
+        </p>
+        <ul>
+          <li>Vérification de la confirmation.</li>
+          <li>Vérification de l’absence de pression pour procéder ou pour renoncer.</li>
+          <li>Possibilité de report demandé par la personne.</li>
+          <li>Préparation, surveillance ou administration selon la situation.</li>
+          <li>Présence du professionnel dans la même pièce pour intervenir en cas de difficulté.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parcours-step step-orange">
+      <div class="parcours-num">10</div>
+      <div>
+        <span class="parcours-badge">APRÈS</span>
+        <h4>Compte rendu, certificat, retour du produit et traçabilité</h4>
+        <p>
+          Après l’administration, plusieurs actes sont nécessaires :
+          certificat de décès, retour du produit non utilisé, compte rendu et enregistrement sécurisé.
+        </p>
+        <ul>
+          <li>Certificat de décès.</li>
+          <li>Produit non utilisé ou partiellement utilisé rapporté à la pharmacie.</li>
+          <li>Destruction selon les règles prévues.</li>
+          <li>Compte rendu établi par le professionnel.</li>
+          <li>Enregistrement dans un système d’information sécurisé.</li>
+          <li>Contrôle a posteriori par la commission nationale.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3>Les délais clés à retenir</h3>
+
+  <div class="parcours-grid">
+    <div class="parcours-card">
+      <h4>15 jours</h4>
+      <p>
+        Délai maximal pour que le médecin notifie sa décision motivée,
+        à compter de la formalisation de la demande.
+      </p>
+    </div>
+
+    <div class="parcours-card">
+      <h4>2 jours minimum</h4>
+      <p>
+        Délai de réflexion avant que la personne puisse confirmer sa demande après une décision favorable.
+      </p>
+    </div>
+
+    <div class="parcours-card">
+      <h4>3 mois</h4>
+      <p>
+        Si la confirmation ou la date d’administration intervient plus de 3 mois après la décision,
+        une réévaluation est nécessaire.
+      </p>
+    </div>
+
+    <div class="parcours-card">
+      <h4>À tout moment</h4>
+      <p>
+        La personne peut renoncer, demander un report ou refuser l’administration.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Cas pratiques dans le parcours</h3>
+
+  <div class="parcours-case">
+    <strong>Cas 1 — La personne ne peut pas se déplacer</strong><br>
+    Le médecin se rend à son domicile ou sur son lieu de prise en charge.
+    La demande ne doit pas être faite en téléconsultation.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 2 — La personne ne peut pas écrire</strong><br>
+    Elle peut formaliser sa demande par un autre mode d’expression adapté à ses capacités.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 3 — La personne confirme tardivement</strong><br>
+    Si la confirmation intervient plus de 3 mois après la décision, le médecin réévalue le caractère libre et éclairé de la volonté.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 4 — La date choisie est éloignée</strong><br>
+    Si la date d’administration est fixée plus de 3 mois après la décision, une réévaluation est aussi nécessaire.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 5 — La personne change d’avis</strong><br>
+    Elle peut renoncer à tout moment. La procédure prend alors fin.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 6 — La personne demande un report</strong><br>
+    Le professionnel suspend la procédure et une nouvelle date peut être convenue.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 7 — Une pression est suspectée</strong><br>
+    Le professionnel doit suspendre la procédure si une pression pour procéder est identifiée.
+    Les pressions pour recourir à l’aide à mourir peuvent être signalées au procureur.
+  </div>
+
+  <div class="parcours-case">
+    <strong>Cas 8 — Le produit n’est pas utilisé ou seulement partiellement utilisé</strong><br>
+    Il doit être rapporté à la pharmacie et détruit selon les règles prévues.
+  </div>
+</div>
+
+<div class="question">
+  <strong>Questions à déposer dans le PAD :</strong>
+  <ul>
+   
+  <p>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">
+      Ouvrir le PAD pour ajouter une question
+    </a>
+  </p>
+</div></div>
+</section>
+<section class="tab-panel" id="panel-roles" data-panel="roles" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Rôles des acteurs</h2>
+    <p>Personne malade, proches, professionnels et institutions.</p>
+  </div>
+  <div class="panel-body"><p>
+  Cette page présente les <strong>rôles des différents acteurs</strong> dans la proposition de loi relative au droit à l’aide à mourir.
+  Elle ne reprend pas le détail chronologique du parcours, mais précise <strong>qui intervient</strong>, <strong>à quel titre</strong>,
+  et <strong>avec quelles limites</strong>.
+</p>
+
+<div class="callout">
+  <strong>Idée centrale :</strong>
+  la personne malade est au centre de la demande, mais elle ne décide pas seule de l’accès.
+  Le médecin évalue et décide après une procédure collégiale. Les proches peuvent accompagner,
+  mais ne décident pas. Les professionnels peuvent participer ou exercer leur clause de conscience.
+</div>
+
+<style>
+  .roles-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .role-block {
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  }
+
+  .role-block h4 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 16px;
+  }
+
+  .role-block p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  .role-block ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+  }
+
+  .role-block li {
+    margin: 5px 0;
+    color: #344054;
+    line-height: 1.4;
+    font-size: 14px;
+  }
+
+  .role-patient {
+    border-left: 7px solid #2563eb;
+    background: #eff6ff;
+  }
+
+  .role-close {
+    border-left: 7px solid #7c3aed;
+    background: #f5f3ff;
+  }
+
+  .role-doctor {
+    border-left: 7px solid #059669;
+    background: #ecfdf3;
+  }
+
+  .role-care {
+    border-left: 7px solid #0f766e;
+    background: #f0fdfa;
+  }
+
+  .role-psy {
+    border-left: 7px solid #9333ea;
+    background: #faf5ff;
+  }
+
+  .role-pharma {
+    border-left: 7px solid #ea580c;
+    background: #fff7ed;
+  }
+
+  .role-institution {
+    border-left: 7px solid #64748b;
+    background: #f8fafc;
+  }
+
+  .role-control {
+    border-left: 7px solid #dc2626;
+    background: #fef2f2;
+  }
+
+  .role-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #d8dee9;
+  }
+
+  .role-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+  }
+
+  .role-matrix th,
+  .role-matrix td {
+    border: 1px solid #d8dee9;
+    padding: 10px;
+    vertical-align: top;
+  }
+
+  .role-matrix th {
+    background: #f1f5f9;
+    color: #111827;
+    text-align: left;
+  }
+
+  .role-matrix td {
+    background: #ffffff;
+    color: #344054;
+  }
+
+  .role-matrix strong {
+    color: #111827;
+  }
+
+  .role-focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .role-focus {
+    padding: 13px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+  }
+
+  .role-focus h4 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    color: #111827;
+  }
+
+  .role-focus p {
+    margin: 0;
+    color: #475467;
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  .role-alert {
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    margin: 12px 0;
+  }
+
+  .role-success {
+    padding: 12px;
+    border-radius: 14px;
+    background: #ecfdf3;
+    border: 1px solid #99f6e4;
+    margin: 12px 0;
+  }
+
+  .role-question {
+    padding: 12px;
+    border-radius: 14px;
+    background: #f0fdfa;
+    border: 1px dashed #14b8a6;
+    margin: 12px 0;
+  }
+</style>
+
+<div class="section">
+  <h3>Vue d’ensemble : les grands rôles</h3>
+
+  <div class="roles-overview">
+
+    <div class="role-block role-patient">
+      <span class="role-label">PERSONNE MALADE</span>
+      <h4>Elle initie et reste au centre de la demande</h4>
+      <ul>
+        <li>Elle exprime personnellement la demande.</li>
+        <li>Elle reçoit l’information nécessaire.</li>
+        <li>Elle confirme, reporte ou renonce.</li>
+        <li>Elle choisit les personnes qui peuvent être présentes.</li>
+        <li>Elle peut renoncer à tout moment.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-close">
+      <span class="role-label">PROCHES</span>
+      <h4>Ils accompagnent, mais ne décident pas</h4>
+      <ul>
+        <li>Ils peuvent être présents si la personne le souhaite.</li>
+        <li>Ils peuvent être orientés vers un soutien psychologique.</li>
+        <li>Ils peuvent être entendus à la demande de la personne.</li>
+        <li>Ils ne peuvent pas demander à la place de la personne.</li>
+        <li>Ils ne doivent exercer aucune pression.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-doctor">
+      <span class="role-label">MÉDECIN SAISI</span>
+      <h4>Il informe, évalue et prend la décision</h4>
+      <ul>
+        <li>Il reçoit la demande.</li>
+        <li>Il informe sur l’état de santé, les traitements, les soins palliatifs et les modalités de l’aide à mourir.</li>
+        <li>Il vérifie les conditions d’accès.</li>
+        <li>Il organise la collégialité.</li>
+        <li>Il prend la décision motivée.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-care">
+      <span class="role-label">COLLÈGE PLURIPROFESSIONNEL</span>
+      <h4>Il éclaire la décision médicale</h4>
+      <ul>
+        <li>Il n’est pas là pour voter à la place du médecin.</li>
+        <li>Il aide à apprécier la situation médicale, la souffrance et la volonté.</li>
+        <li>Il comprend au moins un médecin spécialiste et un professionnel paramédical ou aide-soignant.</li>
+        <li>D’autres professionnels peuvent être associés selon la situation.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-care">
+      <span class="role-label">INFIRMIER / PROFESSIONNELS DE SANTÉ</span>
+      <h4>Ils participent à l’évaluation ou à l’accompagnement</h4>
+      <ul>
+        <li>Ils peuvent participer au collège.</li>
+        <li>Ils peuvent accompagner la personne.</li>
+        <li>Ils peuvent surveiller l’administration.</li>
+        <li>Un infirmier peut administrer la substance si la personne ne peut pas physiquement le faire.</li>
+        <li>Ils peuvent exercer leur clause de conscience.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-psy">
+      <span class="role-label">PSYCHOLOGUE / PSYCHIATRE</span>
+      <h4>Ils soutiennent et éclairent la compréhension de la demande</h4>
+      <ul>
+        <li>Une orientation vers eux est proposée à la personne et aux proches.</li>
+        <li>Ils peuvent aider à travailler la souffrance, l’angoisse, l’ambivalence ou la détresse.</li>
+        <li>Ils peuvent être associés au collège s’ils interviennent dans la prise en charge.</li>
+        <li>Ils ne décident pas seuls de l’accès à l’aide à mourir.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-pharma">
+      <span class="role-label">PHARMACIE</span>
+      <h4>Elle sécurise le circuit du produit</h4>
+      <ul>
+        <li>La pharmacie à usage intérieur prépare la préparation magistrale létale.</li>
+        <li>Elle la délivre au médecin ou à l’infirmier.</li>
+        <li>Elle peut transmettre à une officine désignée.</li>
+        <li>Elle récupère ou organise le retour du produit non utilisé.</li>
+        <li>Le produit est détruit selon les règles prévues.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-institution">
+      <span class="role-label">ÉTABLISSEMENT / SERVICE</span>
+      <h4>Il rend possible l’organisation pratique</h4>
+      <ul>
+        <li>Il permet l’intervention des professionnels concernés.</li>
+        <li>Il permet l’accès des personnes choisies par la personne malade.</li>
+        <li>Il doit anticiper les circuits internes.</li>
+        <li>Il doit articuler organisation pratique et clause de conscience.</li>
+      </ul>
+    </div>
+
+    <div class="role-block role-control">
+      <span class="role-label">COMMISSION NATIONALE</span>
+      <h4>Elle contrôle après coup</h4>
+      <ul>
+        <li>Elle contrôle a posteriori le respect des conditions.</li>
+        <li>Elle suit et évalue l’application du dispositif.</li>
+        <li>Elle tient le registre des professionnels volontaires.</li>
+        <li>Elle peut saisir les instances disciplinaires.</li>
+        <li>Elle peut signaler certains faits au procureur.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3>Qui décide vraiment ?</h3>
+
+  <div class="role-success">
+    <strong>La personne malade décide de demander, de confirmer, de reporter ou de renoncer.</strong><br>
+    Elle garde la maîtrise de sa demande. Elle peut changer d’avis à tout moment.
+  </div>
+
+  <div class="role-alert">
+    <strong>Le médecin décide si les conditions légales sont remplies.</strong><br>
+    Il prend une décision motivée après une procédure collégiale. Le collège éclaire la décision, mais ne remplace pas la décision du médecin.
+  </div>
+
+  <div class="role-alert">
+    <strong>Les proches ne décident pas.</strong><br>
+    Ils peuvent accompagner, soutenir ou être entendus, mais ils ne peuvent ni demander ni confirmer à la place de la personne.
+  </div>
+</div>
+
+<div class="section">
+  <h3>Tableau pratique : acteur, rôle, limite</h3>
+
+  <table class="role-matrix">
+    <thead>
+      <tr>
+        <th>Acteur</th>
+        <th>Rôle principal</th>
+        <th>Limite / vigilance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Personne malade</strong></td>
+        <td>Exprime, formalise, confirme, reporte ou renonce.</td>
+        <td>La demande doit être personnelle, libre et éclairée.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Proches</strong></td>
+        <td>Soutien, présence possible, avis possible à la demande de la personne.</td>
+        <td>Ne décident pas ; attention aux pressions, même indirectes.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Médecin saisi</strong></td>
+        <td>Informe, vérifie, organise la collégialité, décide et prescrit si les conditions sont réunies.</td>
+        <td>Ne doit pas avoir certains liens personnels ou patrimoniaux avec la personne.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Médecin spécialiste</strong></td>
+        <td>Apporte une expertise sur la pathologie.</td>
+        <td>Ne doit pas intervenir dans le traitement de la personne ni dépendre hiérarchiquement du médecin saisi.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Auxiliaire médical / aide-soignant</strong></td>
+        <td>Contribue à l’appréciation clinique et au collège.</td>
+        <td>Ne prend pas seul la décision d’accès.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Infirmier</strong></td>
+        <td>Peut accompagner, surveiller ou administrer si impossibilité physique de la personne.</td>
+        <td>Intervient dans le cadre prévu et peut refuser de participer.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Psychologue / psychiatre</strong></td>
+        <td>Soutien psychique de la personne et des proches ; éclairage clinique possible.</td>
+        <td>Ne remplace pas la décision médicale, mais peut aider à comprendre la demande et la souffrance.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Pharmacie</strong></td>
+        <td>Préparation, délivrance, retour et destruction du produit.</td>
+        <td>Agit selon un circuit sécurisé, avec les recommandations et arrêtés attendus.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Établissement</strong></td>
+        <td>Organisation pratique, accès des professionnels et des proches choisis.</td>
+        <td>Doit respecter la clause de conscience tout en permettant la continuité de l’accompagnement.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Commission nationale</strong></td>
+        <td>Contrôle, évaluation, registre des volontaires, signalements éventuels.</td>
+        <td>Intervient principalement après la procédure, sur les données enregistrées.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="role-question">
+  <strong>Questions à déposer dans le PAD :</strong>
+  <ul>
+   
+  <p>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">
+      Ouvrir le PAD pour ajouter une question
+    </a>
+  </p>
+</div></div>
+</section>
+<section class="tab-panel" id="panel-procedure" data-panel="procedure" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Onglet</p>
+    <h2>Procédure législative</h2>
+    <p>Comprendre la navette parlementaire et les étapes de fabrication de la loi.</p>
+  </div>
+  <div class="panel-body"><p>
+  Cet onglet explique simplement la <strong>procédure législative française</strong>, c’est-à-dire le parcours qui permet à un texte
+  de devenir une loi. Il permet aussi de mieux comprendre où se situe actuellement la proposition de loi relative au droit à l’aide à mourir.
+</p>
+
+<div class="callout">
+  <strong>Idée générale :</strong> la procédure législative comprend trois grandes phases :
+  <strong>la préparation du texte</strong>, <strong>la phase parlementaire</strong>, puis
+  <strong>la phase post-parlementaire</strong>, qui mène normalement à la promulgation de la loi.
+</div>
+
+<style>
+  .proc-leg-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0;
+  }
+
+  .proc-leg-nav a {
+    display: inline-block;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    color: #6d28d9;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .proc-leg-nav a:hover {
+    background: #ede9fe;
+    text-decoration: none;
+  }
+
+  .proc-timeline {
+    position: relative;
+    margin: 22px 0;
+    padding-left: 26px;
+    border-left: 4px solid #7c3aed;
+  }
+
+  .proc-timeline details {
+    margin: 14px 0;
+    background: #ffffff;
+    border: 1px solid #d8dee9;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+
+  .proc-timeline summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-weight: 800;
+  }
+
+  .proc-timeline summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .proc-timeline summary::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background: #7c3aed;
+    border: 3px solid #ffffff;
+    outline: 3px solid #7c3aed;
+    border-radius: 50%;
+    margin-left: -31px;
+    flex: 0 0 auto;
+  }
+
+  .proc-step {
+    display: inline-block;
+    min-width: 120px;
+    color: #6d28d9;
+    font-weight: 900;
+  }
+
+  .proc-title {
+    color: #111827;
+  }
+
+  .proc-content {
+    padding: 0 18px 16px 36px;
+    color: #344054;
+    line-height: 1.5;
+  }
+
+  .proc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .proc-card {
+    border: 1px solid #d8dee9;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .proc-card h4 {
+    margin: 0 0 6px;
+    color: #111827;
+  }
+
+  .proc-card p {
+    margin: 0;
+    color: #475467;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .proc-focus {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-top: 10px;
+  }
+
+  .proc-warning {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-top: 10px;
+  }
+
+  .proc-question {
+    background: #f0fdfa;
+    border: 1px dashed #14b8a6;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="section">
+  <h3>Naviguer dans l’onglet</h3>
+
+  <div class="proc-leg-nav">
+    <a href="#preparation-loi">1. Préparation du texte</a>
+    <a href="#phase-parlementaire">2. Phase parlementaire</a>
+    <a href="#navette">3. Navette parlementaire</a>
+    <a href="#cmp">4. Commission mixte paritaire</a>
+    <a href="#dernier-mot">5. Dernier mot de l’Assemblée</a>
+    <a href="#post-parlementaire">6. Promulgation</a>
+    <a href="#application-aide-mourir">7. Application au texte aide à mourir</a>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Résumé en une phrase</h3>
+
+  <div class="proc-grid">
+    <div class="proc-card">
+      <h4>Projet de loi</h4>
+      <p>Texte déposé par le Gouvernement, préparé par un ou plusieurs ministères.</p>
+    </div>
+
+    <div class="proc-card">
+      <h4>Proposition de loi</h4>
+      <p>Texte déposé par un parlementaire : député ou sénateur.</p>
+    </div>
+
+    <div class="proc-card">
+      <h4>Navette</h4>
+      <p>Allers-retours du texte entre l’Assemblée nationale et le Sénat jusqu’à accord.</p>
+    </div>
+
+    <div class="proc-card">
+      <h4>Promulgation</h4>
+      <p>Acte final par lequel le Président de la République rend la loi applicable.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Frise interactive de la procédure législative</h3>
+</div>
+
+<div class="proc-timeline">
+
+  <details open id="preparation-loi">
+    <summary>
+      <span class="proc-step">Phase 1</span>
+      <span class="proc-title">Préparation du texte</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        La première phase correspond à l’élaboration du texte avant son arrivée au Parlement.
+        Elle dépend du type de texte : <strong>projet de loi</strong> ou <strong>proposition de loi</strong>.
+      </p>
+
+      <ul>
+        <li>
+          Un <strong>projet de loi</strong> est préparé par le Gouvernement, généralement par le ministère compétent.
+        </li>
+        <li>
+          Si plusieurs ministères sont concernés, un ministère chef de file est désigné.
+        </li>
+        <li>
+          Des réunions interministérielles peuvent être organisées à Matignon.
+        </li>
+        <li>
+          Le Secrétariat général du Gouvernement suit le processus normatif.
+        </li>
+        <li>
+          Le projet de loi est transmis au Conseil d’État, qui rend un avis consultatif.
+        </li>
+        <li>
+          Le texte est ensuite présenté en Conseil des ministres, puis déposé sur le bureau d’une assemblée.
+        </li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Différence importante :</strong>
+        une <strong>proposition de loi</strong> est plus simple à déposer, car elle vient d’un parlementaire.
+        Elle ne passe pas obligatoirement par toutes les étapes gouvernementales : ministère, Conseil d’État, Conseil des ministres.
+      </div>
+
+      <div class="proc-warning">
+        <strong>Application à l’aide à mourir :</strong>
+        le texte sur l’aide à mourir est une <strong>proposition de loi</strong>, déposée par un député.
+        Il ne s’agit donc pas d’un projet de loi gouvernemental.
+      </div>
+    </div>
+  </details>
+
+  <details id="phase-parlementaire">
+    <summary>
+      <span class="proc-step">Phase 2</span>
+      <span class="proc-title">Dépôt devant une assemblée</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Le texte est déposé sur le bureau de l’Assemblée nationale ou du Sénat.
+        Pour un projet de loi, le Gouvernement choisit en principe l’assemblée de dépôt,
+        sauf exceptions prévues par la Constitution.
+      </p>
+
+      <ul>
+        <li>
+          Les projets de loi de finances et de financement de la sécurité sociale sont déposés à l’Assemblée nationale.
+        </li>
+        <li>
+          Certains textes concernant les collectivités territoriales sont déposés au Sénat.
+        </li>
+        <li>
+          Une proposition de loi est déposée dans l’assemblée dont son auteur est membre.
+        </li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Exemple :</strong>
+        si une proposition de loi est déposée par un député, elle commence à l’Assemblée nationale.
+        Si elle est déposée par un sénateur, elle commence au Sénat.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="proc-step">Commission</span>
+      <span class="proc-title">Examen en commission</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Une fois déposé, le texte est envoyé à une commission compétente.
+        La commission analyse le texte, auditionne, propose des amendements et adopte éventuellement un texte de commission.
+      </p>
+
+      <ul>
+        <li>Le texte est renvoyé à une commission permanente ou spéciale.</li>
+        <li>Un rapporteur est désigné.</li>
+        <li>Le rapporteur prépare un rapport.</li>
+        <li>Des amendements peuvent être déposés par les parlementaires et le Gouvernement.</li>
+        <li>La commission adopte un rapport et parfois un texte modifié.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Rôle du rapporteur :</strong>
+        il éclaire les débats, formule des propositions, conduit des auditions et joue souvent un rôle important
+        dans l’évolution du texte.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="proc-step">Séance</span>
+      <span class="proc-title">Discussion en séance publique</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Après l’examen en commission, le texte arrive en séance publique.
+        Les parlementaires débattent, examinent les articles, discutent les amendements, puis votent.
+      </p>
+
+      <ul>
+        <li>Discussion générale sur l’esprit du texte.</li>
+        <li>Éventuelles motions de procédure.</li>
+        <li>Discussion des articles un par un.</li>
+        <li>Examen des amendements et sous-amendements.</li>
+        <li>Vote sur chaque article.</li>
+        <li>Vote sur l’ensemble du texte.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Vote sur l’ensemble :</strong>
+        à la fin de la lecture, l’assemblée se prononce sur le texte dans sa globalité.
+      </div>
+    </div>
+  </details>
+
+  <details id="navette" open>
+    <summary>
+      <span class="proc-step">Navette</span>
+      <span class="proc-title">Allers-retours entre Assemblée nationale et Sénat</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        La navette parlementaire désigne les allers-retours du texte entre les deux assemblées.
+        Le principe est que l’Assemblée nationale et le Sénat doivent adopter un texte identique.
+      </p>
+
+      <ul>
+        <li>Le texte est examiné successivement par l’Assemblée nationale et le Sénat.</li>
+        <li>À chaque lecture, les assemblées peuvent modifier le texte.</li>
+        <li>Le texte repart ensuite dans l’autre assemblée.</li>
+        <li>La navette continue jusqu’à l’adoption d’un texte commun.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Principe de l’entonnoir :</strong>
+        au fil de la navette, les assemblées discutent surtout des dispositions qui restent en désaccord.
+        Les dispositions déjà adoptées dans les mêmes termes sortent progressivement de la discussion.
+      </div>
+
+      <div class="proc-warning">
+        <strong>Application à l’aide à mourir :</strong>
+        le texte a connu plusieurs lectures, avec des désaccords persistants entre l’Assemblée nationale et le Sénat.
+      </div>
+    </div>
+  </details>
+
+  <details id="cmp">
+    <summary>
+      <span class="proc-step">CMP</span>
+      <span class="proc-title">Commission mixte paritaire</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        En cas de désaccord entre les deux assemblées, le Gouvernement peut provoquer la réunion d’une
+        <strong>commission mixte paritaire</strong>, appelée CMP.
+      </p>
+
+      <ul>
+        <li>La CMP est composée de <strong>7 députés</strong> et <strong>7 sénateurs</strong>.</li>
+        <li>Elle cherche un compromis sur les dispositions restant en discussion.</li>
+        <li>Si elle aboutit, le texte de compromis est soumis aux deux assemblées.</li>
+        <li>Si elle échoue, la navette peut se poursuivre.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Deux issues possibles :</strong>
+        soit la CMP trouve un accord et le texte peut être adopté définitivement,
+        soit elle échoue et le Gouvernement peut demander une nouvelle lecture.
+      </div>
+
+      <div class="proc-warning">
+        <strong>Application à l’aide à mourir :</strong>
+        une commission mixte paritaire a été réunie, mais elle n’a pas abouti à un accord.
+        Le texte est donc reparti en nouvelle lecture.
+      </div>
+    </div>
+  </details>
+
+  <details id="dernier-mot">
+    <summary>
+      <span class="proc-step">Désaccord</span>
+      <span class="proc-title">Dernier mot possible de l’Assemblée nationale</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Si le désaccord persiste après la commission mixte paritaire et les nouvelles lectures,
+        le Gouvernement peut demander à l’Assemblée nationale de statuer définitivement.
+      </p>
+
+      <ul>
+        <li>Le texte revient une nouvelle fois devant les deux assemblées.</li>
+        <li>Si le désaccord persiste, l’Assemblée nationale peut avoir le dernier mot.</li>
+        <li>Elle statue alors à la majorité simple.</li>
+        <li>Elle peut reprendre son dernier texte, éventuellement modifié par certains amendements adoptés par le Sénat.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Pourquoi l’Assemblée nationale peut avoir le dernier mot ?</strong>
+        La Constitution donne cette possibilité pour éviter qu’un désaccord persistant entre les deux chambres bloque indéfiniment un texte.
+      </div>
+    </div>
+  </details>
+
+  <details id="post-parlementaire">
+    <summary>
+      <span class="proc-step">Phase 3</span>
+      <span class="proc-title">Phase post-parlementaire et promulgation</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Une fois le texte définitivement adopté par le Parlement, il entre dans une phase post-parlementaire.
+        Cette phase débouche normalement sur la promulgation de la loi.
+      </p>
+
+      <ul>
+        <li>Le texte définitivement adopté est transmis au Gouvernement.</li>
+        <li>Le Président de la République dispose en principe de <strong>15 jours</strong> pour promulguer la loi.</li>
+        <li>La loi est ensuite publiée au Journal officiel.</li>
+        <li>Elle entre en vigueur selon les conditions prévues par le texte ou par les décrets d’application.</li>
+      </ul>
+
+      <div class="proc-warning">
+        <strong>Attention :</strong>
+        une loi votée n’est pas forcément immédiatement applicable.
+        Certaines dispositions peuvent dépendre de décrets, d’arrêtés ou de recommandations.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="proc-step">Contrôle</span>
+      <span class="proc-title">Saisine possible du Conseil constitutionnel</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Avant la promulgation, le Conseil constitutionnel peut être saisi.
+        Cette saisine suspend la promulgation jusqu’à sa décision.
+      </p>
+
+      <ul>
+        <li>Le Conseil constitutionnel peut être saisi par le Président de la République.</li>
+        <li>Il peut aussi être saisi par le Premier ministre.</li>
+        <li>Il peut être saisi par le président de l’Assemblée nationale ou du Sénat.</li>
+        <li>Il peut être saisi par 60 députés ou 60 sénateurs.</li>
+        <li>Les dispositions déclarées contraires à la Constitution ne peuvent pas être promulguées.</li>
+      </ul>
+
+      <div class="proc-focus">
+        <strong>Conséquence :</strong>
+        la loi peut être promulguée telle quelle, être amputée des dispositions censurées,
+        ou plus rarement être renvoyée au Parlement pour une nouvelle délibération.
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="proc-step">Exception</span>
+      <span class="proc-title">Nouvelle délibération demandée par le Président</span>
+    </summary>
+    <div class="proc-content">
+      <p>
+        Le Président de la République peut demander au Parlement une nouvelle délibération de la loi
+        ou de certains de ses articles.
+      </p>
+
+      <ul>
+        <li>Cette possibilité existe avant la promulgation.</li>
+        <li>Elle s’exerce par décret contresigné par le Premier ministre.</li>
+        <li>Elle est très rarement utilisée.</li>
+      </ul>
+    </div>
+  </details>
+
+</div>
+
+<div class="section" id="application-aide-mourir">
+  <h3>Application au texte sur l’aide à mourir</h3>
+
+  <p>
+    La proposition de loi relative au droit à l’aide à mourir illustre une procédure parlementaire avec désaccord
+    entre les deux assemblées.
+  </p>
+
+  <div class="quick-grid-am">
+    <div class="quick-card-am">
+      <h4>1. Initiative parlementaire</h4>
+      <p>Le texte est une proposition de loi, donc déposé par un parlementaire, et non un projet de loi gouvernemental.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>2. Première lecture</h4>
+      <p>L’Assemblée nationale adopte le texte, puis il est transmis au Sénat.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>3. Désaccord du Sénat</h4>
+      <p>Le Sénat rejette le texte, ce qui entraîne la poursuite de la navette.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>4. Deuxième lecture</h4>
+      <p>L’Assemblée nationale adopte à nouveau le texte, puis le Sénat le rejette de nouveau.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>5. CMP en désaccord</h4>
+      <p>La commission mixte paritaire n’aboutit pas à un compromis.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>6. Nouvelle lecture</h4>
+      <p>Le texte est adopté par l’Assemblée nationale en nouvelle lecture puis transmis au Sénat.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>7. Étape suivante possible</h4>
+      <p>Si le désaccord persiste, l’Assemblée nationale pourrait être appelée à statuer définitivement.</p>
+    </div>
+
+    <div class="quick-card-am">
+      <h4>8. Pas encore promulgué</h4>
+      <p>Le texte ne devient loi qu’après adoption définitive, éventuel contrôle constitutionnel, promulgation et publication.</p>
+    </div>
+  </div>
+</div>
+
+<div class="warning">
+  <strong>Message clé pour les équipes :</strong>
+  tant qu’un texte n’est pas définitivement adopté et promulgué, il ne faut pas dire “la loi prévoit déjà que…”
+  mais plutôt “le texte actuellement discuté prévoit que…”.
+</div>
+
+<div class="section">
+  <h3>Mots-clés à comprendre</h3>
+
+  <div class="article-am">
+
+    <details>
+      <summary>
+        <span class="article-number-am">Projet : </span>
+        <span class="article-title-am">Projet de loi</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Texte déposé par le Gouvernement. Il est préparé par les ministères, examiné par le Conseil d’État,
+          présenté en Conseil des ministres, puis déposé au Parlement.
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="article-number-am">Proposition : </span>
+        <span class="article-title-am">Proposition de loi</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Texte déposé par un parlementaire : député ou sénateur. La proposition de loi est une initiative parlementaire.
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="article-number-am">Lecture : </span>
+        <span class="article-title-am">Lecture parlementaire</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Passage du texte devant une assemblée. Une première lecture correspond au premier examen par une assemblée,
+          une deuxième lecture au nouvel examen après modification ou rejet par l’autre assemblée.
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="article-number-am">Navette : </span>
+        <span class="article-title-am">Navette parlementaire</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Allers-retours du texte entre l’Assemblée nationale et le Sénat jusqu’à l’adoption d’un texte identique
+          ou jusqu’à l’utilisation d’une procédure de résolution du désaccord.
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="article-number-am">CMP : </span>
+        <span class="article-title-am">Commission mixte paritaire</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Commission composée de 7 députés et 7 sénateurs, chargée de chercher un compromis sur les dispositions
+          restant en discussion entre les deux assemblées.
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="article-number-am">Promulgation : </span>
+        <span class="article-title-am">Promulgation de la loi</span>
+      </summary>
+      <div class="article-content-am">
+        <div class="article-summary-am">
+          Acte par lequel le Président de la République rend la loi officiellement applicable,
+          après son adoption définitive par le Parlement.
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<div class="question">
+  <strong>Questions à déposer dans le PAD :</strong>
+  <ul>
+  
+  <p>
+    <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">
+      Ouvrir le PAD pour ajouter une question
+    </a>
+  </p>
+</div></div>
+</section>
+      </div>
+    </main>
+  </div>
+  <button class="back-top" id="backTop" type="button" aria-label="Revenir en haut">↑ Haut</button>
+  <script>
+  (function() {
+    const buttons = Array.from(document.querySelectorAll('.nav-btn'));
+    const panels = Array.from(document.querySelectorAll('.tab-panel'));
+    const mobileSelect = document.getElementById('mobileSelect');
+    const searchInput = document.getElementById('searchInput');
+    const emptyState = document.getElementById('emptyState');
+    const backTop = document.getElementById('backTop');
+    function setActive(id, push=true) {
+      buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === id));
+      panels.forEach(panel => panel.classList.toggle('active', panel.dataset.panel === id));
+      if (mobileSelect) mobileSelect.value = id;
+      clearSearch();
+      if (push) history.replaceState(null, '', '#' + id);
+      const active = document.querySelector('.tab-panel.active');
+      if (active) active.focus({preventScroll:true});
+      if (window.innerWidth < 901) window.scrollTo({top:0, behavior:'smooth'});
+    }
+    buttons.forEach(btn => btn.addEventListener('click', () => setActive(btn.dataset.target)));
+    document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => setActive(btn.dataset.jump)));
+    mobileSelect.addEventListener('change', e => setActive(e.target.value));
+    const initial = location.hash ? location.hash.slice(1) : 'aide';
+    setActive(document.querySelector(`[data-panel="${initial}"]`) ? initial : 'aide', false);
+    document.getElementById('expandAll').addEventListener('click', () => {
+      document.querySelectorAll('.tab-panel.active details').forEach(d => d.open = true);
+    });
+    document.getElementById('collapseAll').addEventListener('click', () => {
+      document.querySelectorAll('.tab-panel.active details').forEach(d => d.open = false);
+    });
+    function clearMarks(root=document) {
+      root.querySelectorAll('mark.search-hit').forEach(mark => {
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+      });
+    }
+    function clearSearch() {
+      searchInput.value='';
+      emptyState.style.display='none';
+      clearMarks(document);
+    }
+    function highlight(root, query) {
+      clearMarks(root);
+      if (!query || query.length < 2) return 0;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          if (node.parentElement.closest('script,style,mark')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const nodes=[];
+      while(walker.nextNode()) nodes.push(walker.currentNode);
+      let count=0;
+      const escaped = query.replace(/[.*+?^${}()|[\]\]/g, '\$&');
+      const re = new RegExp(escaped, 'gi');
+      nodes.forEach(node => {
+        const text=node.nodeValue;
+        if (!re.test(text)) return;
+        re.lastIndex=0;
+        const frag=document.createDocumentFragment();
+        let last=0, match;
+        while((match=re.exec(text))) {
+          count++;
+          frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+          const mark=document.createElement('mark');
+          mark.className='search-hit';
+          mark.textContent=match[0];
+          frag.appendChild(mark);
+          last=match.index + match[0].length;
+        }
+        frag.appendChild(document.createTextNode(text.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      });
+      root.querySelectorAll('details').forEach(d => {
+        if (d.querySelector('mark.search-hit')) d.open = true;
+      });
+      const first = root.querySelector('mark.search-hit');
+      if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+      return count;
+    }
+    searchInput.addEventListener('input', e => {
+      const active = document.querySelector('.tab-panel.active');
+      const q=e.target.value.trim();
+      const n=highlight(active, q);
+      emptyState.style.display = q.length >= 2 && n === 0 ? 'block' : 'none';
+    });
+    window.addEventListener('scroll', () => { backTop.classList.toggle('visible', window.scrollY > 500); });
+    backTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  })();
+  </script>
 </body>
 </html>
