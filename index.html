@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fin de vie — carte interactive</title>
-  <meta name="description" content="Site interactif consultable sur téléphone : réforme de la fin de vie, soins palliatifs, aide à mourir, parcours, rôles et procédure législative.">
+  <title>Fin de vie : soins palliatifs et aide à mourir</title>
+  <meta name="description" content="Site interactif consultable sur téléphone consacré aux soins palliatifs, à la proposition de loi sur l’aide à mourir, aux parcours, rôles, conditions et ressources utiles.">
   <style>
     :root {
       --bg:#f6f7fb;
@@ -123,6 +123,24 @@
       .parcours-step:not(:last-child)::after { display:none; }
       .role-matrix,.decision-table,.parcours-table { font-size:13px; }
     }
+
+    .resource-zone {
+      border:2px dashed #cbd5e1; border-radius:20px; padding:18px; background:#f8fafc; margin:16px 0;
+    }
+    .resource-zone input[type="file"], .resource-zone input[type="url"], .resource-zone input[type="text"] {
+      width:100%; border:1px solid var(--line); border-radius:14px; padding:12px; margin:6px 0 10px; font-size:15px; background:#fff;
+    }
+    .resource-zone button, .resource-card a.resource-link {
+      display:inline-block; border:1px solid #111827; background:#111827; color:#fff; border-radius:999px; padding:9px 12px; font-weight:800; text-decoration:none; cursor:pointer;
+    }
+    .resource-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:16px 0; }
+    .resource-card { border:1px solid var(--line); background:#fff; border-radius:18px; padding:14px; box-shadow:0 4px 14px rgba(15,23,42,.04); }
+    .resource-card h4 { margin:0 0 8px; color:#111827; }
+    .resource-card p { margin:0 0 10px; color:#475467; font-size:14px; }
+    .resource-list { display:grid; gap:10px; margin-top:12px; }
+    .resource-item { border:1px solid #d8dee9; background:#fff; border-radius:14px; padding:11px; }
+    .resource-item a { font-weight:800; }
+
     @media print {
       body { background:#fff; } .sidebar,.hero-actions,.back-top,.mobile-select { display:none !important; }
       .layout { display:block; } .tab-panel { display:block !important; margin:0 0 20px; box-shadow:none; break-inside:avoid; }
@@ -133,14 +151,9 @@
 <body>
   <div class="site-shell">
     <header class="hero">
-      <h1>Fin de vie : carte interactive</h1>
-      <p>Un site consultable sur ordinateur et téléphone pour naviguer entre les onglets : aide à mourir, soins palliatifs, conditions d’accès, parcours, rôles et procédure législative.</p>
-      <div class="quick-grid" aria-label="Repères rapides">
-        <div class="quick-card"><strong>6 onglets</strong><span>Navigation interactive.</span></div>
-        <div class="quick-card"><strong>Mobile</strong><span>Affichage adapté au téléphone.</span></div>
-        <div class="quick-card"><strong>GitHub Pages</strong><span>Fichier unique à renommer index.html.</span></div>
-      </div>
-      <div class="hero-actions">
+      <h1>Fin de vie : soins palliatifs et aide à mourir</h1>
+      <p>Un site interactif pour comprendre les deux volets de la réforme de la fin de vie : la loi sur l’accompagnement et les soins palliatifs, et la proposition de loi relative au droit à l’aide à mourir. Les onglets permettent de consulter les articles, les conditions d’accès, le parcours prévu, le rôle des acteurs, la procédure législative et les ressources associées.</p>
+<div class="hero-actions">
         <button type="button" data-jump="aide">Commencer par l’aide à mourir</button>
         <button type="button" data-jump="soins">Voir les soins palliatifs</button>
         <a href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">Ouvrir le PAD</a>
@@ -157,6 +170,7 @@
 <option value="parcours">Parcours prévu</option>
 <option value="roles">Rôles des acteurs</option>
 <option value="procedure">Procédure législative</option>
+<option value="ressources">Ressources et fichiers</option>
         </select>
         <div class="search-wrap">
           <label for="searchInput">Rechercher dans le site</label>
@@ -170,6 +184,7 @@
 <button class="nav-btn" data-target="parcours" aria-controls="panel-parcours"><span>Parcours prévu</span><small>Étapes de la demande à la traçabilité.</small></button>
 <button class="nav-btn" data-target="roles" aria-controls="panel-roles"><span>Rôles des acteurs</span><small>Personne malade, proches, professionnels et institutions.</small></button>
 <button class="nav-btn" data-target="procedure" aria-controls="panel-procedure"><span>Procédure législative</span><small>Comprendre la navette parlementaire et les étapes de fabrication de la loi.</small></button>
+<button class="nav-btn" data-target="ressources" aria-controls="panel-ressources"><span>Ressources et fichiers</span><small>Déposer des fichiers localement, ajouter des liens et retrouver les sources utiles.</small></button>
         </nav>
         <div class="tools">
           <button class="tool-btn" id="expandAll" type="button">Tout ouvrir</button>
@@ -3469,6 +3484,73 @@
   </p>
 </div></div>
 </section>
+        <section class="tab-panel" id="panel-ressources" data-panel="ressources" tabindex="0">
+          <div class="panel-head">
+            <p class="eyebrow">Onglet</p>
+            <h2>Ressources et fichiers</h2>
+            <p>Un espace pour regrouper les documents, liens utiles et fichiers de travail associés au site.</p>
+          </div>
+          <div class="panel-body">
+            <div class="callout">
+              <strong>À savoir :</strong> sur GitHub Pages, un visiteur ne peut pas envoyer un fichier directement sur ton dépôt depuis le site. Pour rendre un fichier consultable par tout le monde, il faut l’ajouter dans ton dépôt GitHub, par exemple dans un dossier <strong>documents/</strong>, puis créer un lien vers ce fichier.
+            </div>
+
+            <div class="section">
+              <h3>Déposer un fichier pour consultation locale</h3>
+              <p>Tu peux sélectionner un fichier depuis ton ordinateur pour le consulter dans cette page. Ce dépôt est local à ton navigateur : il ne publie pas automatiquement le fichier sur GitHub.</p>
+              <div class="resource-zone">
+                <label for="resourceFileInput"><strong>Ajouter un ou plusieurs fichiers</strong></label>
+                <input id="resourceFileInput" type="file" multiple>
+                <div id="resourceLocalList" class="resource-list" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3>Ajouter un lien de ressource</h3>
+              <p>Ajoute ici un lien vers un document en ligne, un PDF institutionnel, un PAD, une page GitHub ou une ressource bibliographique.</p>
+              <div class="resource-zone">
+                <label for="resourceTitle"><strong>Titre de la ressource</strong></label>
+                <input id="resourceTitle" type="text" placeholder="Ex. Texte adopté, PAD questions, Légifrance…">
+                <label for="resourceUrl"><strong>Lien URL</strong></label>
+                <input id="resourceUrl" type="url" placeholder="https://...">
+                <button id="addResourceLink" type="button">Ajouter le lien</button>
+                <div id="resourceSavedList" class="resource-list" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3>Ressources déjà intégrées</h3>
+              <div class="resource-grid">
+                <div class="resource-card">
+                  <h4>PAD questions</h4>
+                  <p>Espace collaboratif pour déposer les questions autour du projet de loi sur la fin de vie.</p>
+                  <a class="resource-link" href="https://annuel.framapad.org/p/projet-de-loi-sur-la-fin-de-vie-am0x" target="_blank" rel="noopener">Ouvrir</a>
+                </div>
+                <div class="resource-card">
+                  <h4>Loi soins palliatifs — Légifrance</h4>
+                  <p>Texte officiel relatif à l’accompagnement et aux soins palliatifs.</p>
+                  <a class="resource-link" href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054131776" target="_blank" rel="noopener">Consulter</a>
+                </div>
+                <div class="resource-card">
+                  <h4>Proposition aide à mourir — Assemblée nationale</h4>
+                  <p>Texte adopté n° 323 utilisé comme référence pour la synthèse article par article.</p>
+                  <a class="resource-link" href="https://www.assemblee-nationale.fr/dyn/17/textes/l17t0323_texte-adopte-seance" target="_blank" rel="noopener">Consulter</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3>Pour publier un vrai fichier sur GitHub Pages</h3>
+              <div class="resource-card">
+                <p><strong>Étape 1 :</strong> dans ton dépôt GitHub, crée un dossier <strong>documents</strong>.</p>
+                <p><strong>Étape 2 :</strong> ajoute ton PDF ou document dans ce dossier.</p>
+                <p><strong>Étape 3 :</strong> dans cet onglet, ajoute un lien du type <strong>documents/nom-du-fichier.pdf</strong>.</p>
+                <p><strong>Étape 4 :</strong> commit les changements. Le lien GitHub Pages restera le même.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
@@ -3527,7 +3609,7 @@
       const nodes=[];
       while(walker.nextNode()) nodes.push(walker.currentNode);
       let count=0;
-      const escaped = query.replace(/[.*+?^${}()|[\]\]/g, '\$&');
+      const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const re = new RegExp(escaped, 'gi');
       nodes.forEach(node => {
         const text=node.nodeValue;
@@ -3562,6 +3644,51 @@
     });
     window.addEventListener('scroll', () => { backTop.classList.toggle('visible', window.scrollY > 500); });
     backTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+    const resourceFileInput = document.getElementById('resourceFileInput');
+    const resourceLocalList = document.getElementById('resourceLocalList');
+    const resourceTitle = document.getElementById('resourceTitle');
+    const resourceUrl = document.getElementById('resourceUrl');
+    const addResourceLink = document.getElementById('addResourceLink');
+    const resourceSavedList = document.getElementById('resourceSavedList');
+    function renderSavedResources() {
+      if (!resourceSavedList) return;
+      const saved = JSON.parse(localStorage.getItem('finVieResources') || '[]');
+      resourceSavedList.innerHTML = saved.map((r, i) => `<div class="resource-item"><a href="${r.url}" target="_blank" rel="noopener">${r.title || r.url}</a><br><small>${r.url}</small> <button type="button" data-remove-resource="${i}" style="float:right;border:0;background:#fee2e2;color:#991b1b;border-radius:999px;padding:4px 8px;font-weight:800;cursor:pointer;">retirer</button></div>`).join('');
+      resourceSavedList.querySelectorAll('[data-remove-resource]').forEach(btn => btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.removeResource);
+        const next = JSON.parse(localStorage.getItem('finVieResources') || '[]');
+        next.splice(idx, 1);
+        localStorage.setItem('finVieResources', JSON.stringify(next));
+        renderSavedResources();
+      }));
+    }
+    if (resourceFileInput && resourceLocalList) {
+      resourceFileInput.addEventListener('change', () => {
+        resourceLocalList.innerHTML = '';
+        Array.from(resourceFileInput.files || []).forEach(file => {
+          const url = URL.createObjectURL(file);
+          const item = document.createElement('div');
+          item.className = 'resource-item';
+          item.innerHTML = `<a href="${url}" target="_blank" rel="noopener">${file.name}</a><br><small>${Math.round(file.size/1024)} Ko — lien temporaire local</small>`;
+          resourceLocalList.appendChild(item);
+        });
+      });
+    }
+    if (addResourceLink && resourceTitle && resourceUrl) {
+      addResourceLink.addEventListener('click', () => {
+        const url = resourceUrl.value.trim();
+        if (!url) return;
+        const saved = JSON.parse(localStorage.getItem('finVieResources') || '[]');
+        saved.push({title: resourceTitle.value.trim() || url, url});
+        localStorage.setItem('finVieResources', JSON.stringify(saved));
+        resourceTitle.value = '';
+        resourceUrl.value = '';
+        renderSavedResources();
+      });
+      renderSavedResources();
+    }
+
   })();
   </script>
 </body>
