@@ -147,8 +147,9 @@
       details { break-inside:avoid; } details:not([open]) > *:not(summary) { display:block; }
     }
   </style>
+<style>.scroll-progress{position:fixed;inset:0 0 auto;height:4px;z-index:50}.scroll-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#2563eb,#059669)}.skip-link{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 14px;background:#fff;color:#111827;font-weight:900}.skip-link:focus{top:12px}:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}.site-footer{margin:18px 0;padding:18px;border:1px solid #d8dee9;border-radius:18px;background:#fff;color:#5b6472}.pad-primary{display:inline-block;padding:10px 14px;border-radius:999px;background:#111827;color:#fff;font-weight:900;text-decoration:none}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}</style>
 </head>
-<body>
+<body><a class="skip-link" href="#contenu">Aller au contenu</a><div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
   <div class="site-shell">
     <header class="hero">
       <h1>Fin de vie : soins palliatifs et aide à mourir</h1>
@@ -191,7 +192,7 @@
           <button class="tool-btn" id="collapseAll" type="button">Tout fermer</button>
         </div>
       </aside>
-      <div class="content">
+      <div class="content" id="contenu">
         <section class="tab-panel" id="panel-aide" data-panel="aide" tabindex="0">
   <div class="panel-head">
     <p class="eyebrow">Onglet</p>
@@ -1934,8 +1935,6 @@
 
 <div class="question">
   <strong>Questions à déposer dans le PAD :</strong>
-  <ul>
-   
   <p>
     <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">
       Ouvrir le PAD pour ajouter une question
@@ -2419,8 +2418,6 @@
 
 <div class="question">
   <strong>Questions à déposer dans le PAD :</strong>
-  <ul>
-   
   <p>
     <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">
       Ouvrir le PAD pour ajouter une question
@@ -2830,8 +2827,6 @@
 
 <div class="role-question">
   <strong>Questions à déposer dans le PAD :</strong>
-  <ul>
-   
   <p>
     <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">
       Ouvrir le PAD pour ajouter une question
@@ -3475,10 +3470,13 @@
 
 <div class="question">
   <strong>Questions à déposer dans le PAD :</strong>
-  <ul>
-  
   <p>
     <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">
       Ouvrir le PAD pour ajouter une question
     </a>
-  </p>
+  </p></div></div></section>
+<section class="tab-panel" id="panel-ressources" data-panel="ressources" tabindex="0"><div class="panel-head"><p class="eyebrow">Onglet</p><h2>Ressources et fichiers</h2><p>Accéder au document collaboratif et aux sources du site.</p></div><div class="panel-body"><div class="resource-grid"><article class="resource-card"><h3>PAD collaboratif EMSP</h3><p>Déposer une question ou contribuer au travail collectif.</p><a class="pad-primary" href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">Ouvrir le nouveau PAD ↗</a></article><article class="resource-card"><h3>Sources institutionnelles</h3><p>Les liens officiels sont accessibles dans les onglets concernés.</p><button class="tool-btn" type="button" data-jump="aide">Voir la chronologie</button></article></div></div></section></div></main><footer class="site-footer">Ressource d’information EMSP — vérifiez toujours la version officielle des textes.</footer></div><button class="back-top" id="backTop" type="button" aria-label="Revenir en haut">↑ Haut</button>
+<script>
+(()=>{const P='https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo',pan=[...document.querySelectorAll('[data-panel]')],nav=[...document.querySelectorAll('.nav-btn')],sel=document.getElementById('mobileSelect'),q=document.getElementById('searchInput'),empty=document.getElementById('emptyState'),top=document.getElementById('backTop'),bar=document.getElementById('scrollProgress');document.querySelectorAll('a[href*="framapad"],a[href*="mypads"]').forEach(a=>{a.href=P;a.target='_blank';a.rel='noopener noreferrer'});document.querySelectorAll('a[target="_blank"]').forEach(a=>a.rel='noopener noreferrer');function show(n,h=true){n=pan.some(p=>p.dataset.panel===n)?n:'aide';pan.forEach(p=>p.classList.toggle('active',p.dataset.panel===n));nav.forEach(b=>{let x=b.dataset.target===n;b.classList.toggle('active',x);b.setAttribute('aria-current',x?'page':'false')});sel.value=n;q.value='';empty.style.display='none';if(h)history.replaceState(null,'','#'+n)}nav.forEach(b=>b.onclick=()=>show(b.dataset.target));sel.onchange=e=>show(e.target.value);document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{show(b.dataset.jump);document.getElementById('contenu').scrollIntoView()});document.getElementById('expandAll').onclick=()=>document.querySelectorAll('.tab-panel.active details').forEach(d=>d.open=true);document.getElementById('collapseAll').onclick=()=>document.querySelectorAll('.tab-panel.active details').forEach(d=>d.open=false);q.oninput=()=>{let t=q.value.trim().toLowerCase(),p=document.querySelector('.tab-panel.active'),hit=!t||p.textContent.toLowerCase().includes(t);empty.style.display=hit?'none':'block';if(t&&hit){let d=[...p.querySelectorAll('details')].find(x=>x.textContent.toLowerCase().includes(t));if(d)d.open=true}};function scr(){let m=document.documentElement.scrollHeight-innerHeight;bar.style.width=(m?scrollY/m*100:0)+'%';top.classList.toggle('visible',scrollY>500)}addEventListener('scroll',scr,{passive:true});top.onclick=()=>scrollTo({top:0,behavior:'smooth'});addEventListener('hashchange',()=>show(location.hash.slice(1),false));show(location.hash.slice(1)||'aide',false);scr()})();
+</script></body></html>
+
