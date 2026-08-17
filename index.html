@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fin de vie : soins palliatifs et aide à mourir</title>
-  <meta name="description" content="Site interactif consultable sur téléphone consacré aux soins palliatifs, à la proposition de loi sur l’aide à mourir, aux parcours, rôles, conditions et ressources utiles.">
+  <title>Fin de vie · Cadre légal et parcours proposés à l’IPC</title>
+  <meta name="description" content="Ressource interactive sur les soins palliatifs, le texte adopté relatif à l’aide à mourir et les parcours organisationnels proposés à l’IPC.">
   <style>
     :root {
       --bg:#f6f7fb;
@@ -148,18 +148,144 @@
     }
   </style>
 <style>.scroll-progress{position:fixed;inset:0 0 auto;height:4px;z-index:50}.scroll-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#2563eb,#059669)}.skip-link{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 14px;background:#fff;color:#111827;font-weight:900}.skip-link:focus{top:12px}:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}.site-footer{margin:18px 0;padding:18px;border:1px solid #d8dee9;border-radius:18px;background:#fff;color:#5b6472}.pad-primary{display:inline-block;padding:10px 14px;border-radius:999px;background:#111827;color:#fff;font-weight:900;text-decoration:none}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}</style>
+<meta name="theme-color" content="#123c3d">
+<style id="design-system-2026">
+:root{
+  --bg:#eef3f1;--surface:#fff;--surface-soft:#f6f9f8;--ink:#17211f;--muted:#60706b;
+  --brand:#123c3d;--brand-2:#1f6f68;--accent:#2d70b3;--line:#d9e3df;
+  --warn:#9a5814;--warn-bg:#fff5e7;--ok:#176548;--ok-bg:#eaf7f1;
+  --radius:22px;--shadow:0 18px 50px rgba(18,60,61,.10);--shadow-soft:0 8px 24px rgba(18,60,61,.07)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#e8f0ed 0,#f6f8f7 420px,#eef3f1 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
+a{color:#185f9e;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+.hero{position:relative;isolation:isolate;overflow:hidden;max-width:1460px;margin:20px auto 0;padding:clamp(34px,6vw,78px);border-radius:32px;background:linear-gradient(125deg,#0c3134 0%,#145554 56%,#24766d 100%);box-shadow:0 28px 80px rgba(8,47,49,.22);color:#fff;text-align:left}
+.hero::before,.hero::after{content:"";position:absolute;z-index:-1;border-radius:50%;border:1px solid rgba(255,255,255,.17)}
+.hero::before{width:440px;height:440px;right:-120px;top:-240px;box-shadow:0 0 0 70px rgba(255,255,255,.035)}
+.hero::after{width:220px;height:220px;right:18%;bottom:-155px;background:rgba(255,255,255,.035)}
+.hero-kicker{display:inline-flex;align-items:center;gap:9px;margin-bottom:18px;padding:7px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.09);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.hero-kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:#7ce1c6;box-shadow:0 0 0 5px rgba(124,225,198,.12)}
+.hero h1{max-width:900px;margin:0;font-size:clamp(2.15rem,5vw,4.45rem);line-height:1.01;letter-spacing:-.045em;color:#fff}
+.hero>p{max-width:820px;margin:22px 0 0;color:#d8ebe7;font-size:clamp(1rem,1.55vw,1.22rem)}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:11px;margin-top:30px}
+.hero-actions button,.hero-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 17px;border:1px solid rgba(255,255,255,.26);border-radius:12px;background:rgba(255,255,255,.09);color:#fff;font:inherit;font-size:.88rem;font-weight:760;text-decoration:none;cursor:pointer;transition:transform .18s ease,background .18s ease,border-color .18s ease}
+.hero-actions button:hover,.hero-actions a:hover{transform:translateY(-2px);background:rgba(255,255,255,.17);border-color:rgba(255,255,255,.5)}
+.hero-actions .hero-primary{background:#fff;color:#123c3d;border-color:#fff;box-shadow:0 9px 25px rgba(0,0,0,.14)}
+.hero-actions .hero-primary:hover{background:#e9faf5}
+.hero-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px;color:#c9e2dd;font-size:.78rem;font-weight:700}
+.hero-meta span{padding:6px 10px;border-radius:999px;background:rgba(5,31,32,.25)}
+.app-shell{display:grid;grid-template-columns:300px minmax(0,1fr);gap:26px;max-width:1460px;margin:26px auto;padding:0 20px 44px}
+.sidebar{position:sticky;top:18px;align-self:start;max-height:calc(100vh - 36px);overflow:auto;padding:15px;border:1px solid rgba(18,60,61,.09);border-radius:24px;background:rgba(255,255,255,.88);box-shadow:var(--shadow-soft);backdrop-filter:blur(14px)}
+.search-box{padding:7px 7px 13px;border-bottom:1px solid var(--line)}
+.search-box input{width:100%;padding:12px 13px;border:1px solid #cfdcd7;border-radius:12px;background:#f8fbfa;color:var(--ink);font:inherit;outline:none}
+.search-box input:focus{border-color:#3e8e84;box-shadow:0 0 0 4px rgba(31,111,104,.11)}
+.nav-list{display:grid;gap:5px;margin-top:10px}
+.nav-btn{position:relative;width:100%;padding:12px 13px;border:0;border-radius:13px;background:transparent;color:var(--ink);text-align:left;cursor:pointer;transition:background .18s ease,transform .18s ease,color .18s ease}
+.nav-btn:hover{background:#eff6f3;transform:translateX(2px)}
+.nav-btn.active{background:linear-gradient(135deg,#123c3d,#1d6863);color:#fff;box-shadow:0 9px 20px rgba(18,60,61,.18)}
+.nav-btn span{display:block;padding-right:36px;font-size:.92rem;font-weight:820}
+.nav-btn small{display:block;margin-top:3px;color:#6b7a76;font-size:.73rem;line-height:1.35}
+.nav-btn.active small{color:#cee2de}
+.nav-btn[data-target="parcours-propose"]::after{content:"Nouveau";position:absolute;right:9px;top:10px;padding:2px 6px;border-radius:999px;background:#dff6ee;color:#176548;font-size:.55rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+.nav-btn[data-target="parcours-propose"].active::after{background:#fff;color:#123c3d}
+.content{min-width:0}
+.tab-panel{overflow:hidden;border:1px solid rgba(18,60,61,.09);border-radius:28px;background:rgba(255,255,255,.96);box-shadow:var(--shadow)}
+.panel-head{position:relative;padding:clamp(27px,4vw,46px);border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fbfdfc 0%,#edf6f3 100%)}
+.panel-head::after{content:"";position:absolute;left:clamp(27px,4vw,46px);bottom:-2px;width:90px;height:4px;border-radius:999px;background:linear-gradient(90deg,#1f6f68,#5db6a8)}
+.panel-head h2{margin:0;color:#123c3d;font-size:clamp(1.8rem,3vw,2.75rem);line-height:1.08;letter-spacing:-.035em}
+.panel-head p{max-width:820px;margin:12px 0 0;color:#596b66;font-size:1rem}
+.panel-head .eyebrow{margin:0 0 9px;color:#1f6f68;font-size:.72rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.panel-body{padding:clamp(24px,4vw,46px)}
+.panel-body h3{margin-top:2.1rem;color:#123c3d;letter-spacing:-.018em}
+.panel-body h4{color:#173f40}
+.card,.info-card,.role-card,.step,.criteria-card,.resource-card{border-color:var(--line)!important;border-radius:17px!important;box-shadow:0 4px 14px rgba(18,60,61,.04)}
+.callout{border-radius:16px!important}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse}
+th{background:#eaf3f0;color:#173f40}
+th,td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+.site-footer{display:flex;justify-content:space-between;gap:24px;max-width:1420px;margin:0 auto 30px;padding:20px 24px;border-radius:18px;background:#123c3d;color:#d7e8e4;font-size:.82rem}
+.site-footer strong{color:#fff;white-space:nowrap}
+.mobile-select{border-color:#cfdcd7!important;border-radius:13px!important;background:#fff!important}
+
+/* Parcours proposé */
+.pp-intro{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:18px;margin-bottom:34px}
+.pp-brief,.pp-source-card{padding:22px;border:1px solid var(--line);border-radius:18px;background:#f7faf9}
+.pp-brief{background:linear-gradient(135deg,#123c3d,#1b625e);color:#e4f1ee}
+.pp-brief strong{display:block;margin-bottom:8px;color:#fff;font-size:1.08rem}
+.pp-brief p,.pp-source-card p{margin:0}
+.pp-source-card{display:grid;align-content:center;gap:10px}
+.pp-source-card strong{color:#123c3d}
+.pp-source-links{display:flex;flex-wrap:wrap;gap:8px}
+.pp-source-links a{padding:7px 10px;border-radius:9px;background:#e5f1ee;font-size:.78rem;font-weight:800;text-decoration:none}
+.pp-section{margin-top:40px}
+.pp-section-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.pp-section-head h3{margin:0;color:#123c3d;font-size:1.55rem;line-height:1.2}
+.pp-section-head p{margin:5px 0 0;color:var(--muted)}
+.pp-chip{flex:0 0 auto;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#dff1ec;color:#176548;font-weight:900}
+.pp-scenario-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.pp-scenario-card{padding:21px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow-soft)}
+.pp-scenario-card h4{margin:0 0 13px;font-size:1.02rem}
+.pp-scenario-card p{margin:10px 0 0;color:var(--muted);font-size:.87rem}
+.pp-path-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.pp-path-list li{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:11px;background:#f1f6f4;font-size:.88rem;font-weight:720}
+.pp-path-list li::before{content:"";width:8px;height:8px;border:2px solid #2d8277;border-radius:50%;background:#fff}
+.pp-case-banner{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:28px 0 18px;padding:20px 22px;border-radius:18px;background:linear-gradient(125deg,#e6f3ef,#eef5fb);border:1px solid #cedfdc}
+.pp-case-banner span{font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#1f6f68}
+.pp-case-banner strong{display:block;margin-top:4px;color:#123c3d;font-size:1.12rem}
+.pp-flow{display:grid;gap:13px}
+.pp-flow details{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}
+.pp-flow summary{display:flex;align-items:center;gap:13px;padding:18px 20px;cursor:pointer;list-style:none;color:#123c3d;font-weight:850}
+.pp-flow summary::-webkit-details-marker{display:none}
+.pp-flow summary::after{content:"+";margin-left:auto;display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#e9f3f0;color:#176548;font-size:1.15rem}
+.pp-flow details[open] summary::after{content:"–"}
+.pp-step-number{display:grid;place-items:center;width:31px;height:31px;border-radius:10px;background:#123c3d;color:#fff;font-size:.78rem}
+.pp-flow-content{padding:0 20px 20px}
+.pp-correction{margin:0 0 14px;padding:12px 14px;border-left:4px solid #b76a16;border-radius:10px;background:var(--warn-bg);color:#70400f;font-size:.86rem}
+.pp-layer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.pp-layer{padding:16px;border-radius:14px;border:1px solid var(--line);font-size:.85rem}
+.pp-layer h5{margin:0 0 8px;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase}
+.pp-layer p,.pp-layer ul{margin:0}
+.pp-layer ul{padding-left:18px}
+.pp-layer.legal{background:#eef6fb;border-color:#cddfea}.pp-layer.legal h5{color:#21659d}
+.pp-layer.discussion{background:#faf6ed;border-color:#eadfc6}.pp-layer.discussion h5{color:#885f1d}
+.pp-layer.proposal{background:#edf8f3;border-color:#cce6da}.pp-layer.proposal h5{color:#176548}
+.pp-open-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pp-open-card{padding:19px;border:1px solid var(--line);border-radius:16px;background:#f8faf9}
+.pp-open-card h4{margin:0 0 9px}.pp-open-card p{margin:0;color:#566963;font-size:.88rem}
+.pp-priority-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.pp-priority{padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.pp-priority b{display:flex;align-items:center;gap:9px;color:#123c3d}
+.pp-priority b::before{content:"";width:9px;height:9px;border-radius:50%;background:#2d8277;box-shadow:0 0 0 5px #e3f3ef}
+.pp-priority p{margin:9px 0 0;color:var(--muted);font-size:.84rem}
+.pp-decision-table td:first-child{font-weight:820;color:#123c3d}
+.pp-decision-table td:last-child{color:#52645f}
+.pp-glossary{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pp-glossary span{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#f7faf9;color:#51635e;font-size:.76rem}
+@media(max-width:1050px){.app-shell{grid-template-columns:250px minmax(0,1fr)}.pp-layer-grid{grid-template-columns:1fr}.pp-priority-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.hero{margin:12px 12px 0;border-radius:24px}.app-shell{display:block;padding:0 12px 30px}.sidebar{position:static;max-height:none;margin:16px 0}.nav-list{display:none}.mobile-select{display:block!important;width:100%}.pp-intro,.pp-scenario-grid{grid-template-columns:1fr}.site-footer{margin:0 12px 18px;flex-direction:column;gap:5px}.site-footer strong{white-space:normal}}
+@media(max-width:560px){.hero{padding:30px 22px}.hero h1{font-size:2.3rem}.hero-actions{display:grid}.hero-actions button,.hero-actions a{width:100%}.hero-meta{display:none}.panel-head,.panel-body{padding:23px 19px}.pp-case-banner{align-items:flex-start;flex-direction:column}.pp-open-grid,.pp-priority-grid{grid-template-columns:1fr}.pp-flow summary{padding:15px}.pp-flow-content{padding:0 14px 15px}.site-footer{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 <body><a class="skip-link" href="#contenu">Aller au contenu</a><div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
   <div class="site-shell">
     <header class="hero">
-      <h1>Fin de vie : soins palliatifs et aide à mourir</h1>
-      <p>Un site interactif pour comprendre les deux volets de la réforme de la fin de vie : la loi sur l’accompagnement et les soins palliatifs, et la proposition de loi relative au droit à l’aide à mourir. Les onglets permettent de consulter les articles, les conditions d’accès, le parcours prévu, le rôle des acteurs, la procédure législative et les ressources associées.</p>
-<div class="hero-actions">
-        <button type="button" data-jump="aide">Commencer par l’aide à mourir</button>
-        <button type="button" data-jump="soins">Voir les soins palliatifs</button>
-        <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">Ouvrir le PAD</a>
-      </div>
-    </header>
+  <div class="hero-kicker">Ressource de travail EMSP · IPC</div>
+  <h1>Fin de vie : comprendre le cadre, préparer les parcours</h1>
+  <p>Une ressource interactive pour distinguer le droit applicable, les soins palliatifs et les choix d’organisation à construire autour des demandes d’aide à mourir.</p>
+  <div class="hero-actions">
+    <button class="hero-primary" type="button" data-jump="parcours-propose">Explorer le parcours proposé</button>
+    <button type="button" data-jump="aide">Comprendre l’aide à mourir</button>
+    <button type="button" data-jump="soins">Voir les soins palliatifs</button>
+    <a href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo" target="_blank" rel="noopener">Ouvrir le PAD</a>
+  </div>
+  <div class="hero-meta" aria-label="Caractéristiques de la ressource">
+    <span>Cadre légal sourcé</span><span>Scénarios cliniques à discuter</span><span>Propositions IPC identifiées</span>
+  </div>
+</header>
 
     <main class="layout">
       <aside class="sidebar" aria-label="Navigation du site">
@@ -169,20 +295,22 @@
 <option value="soins">Soins palliatifs</option>
 <option value="eligibilite">Qui peut demander ?</option>
 <option value="parcours">Parcours prévu</option>
+<option value="parcours-propose">Parcours proposé · IPC</option>
 <option value="roles">Rôles des acteurs</option>
 <option value="procedure">Procédure législative</option>
 <option value="ressources">Ressources et fichiers</option>
         </select>
         <div class="search-wrap">
           <label for="searchInput">Rechercher dans le site</label>
-          <input id="searchInput" type="search" placeholder="Ex. souffrance, ARS, procédure…" autocomplete="off">
+          <input id="searchInput" type="search" placeholder="Ex. collégialité, HAD, souffrance…" autocomplete="off">
           <div class="empty-state" id="emptyState">Aucun résultat dans l’onglet actuel. Essaie un autre mot ou un autre onglet.</div>
         </div>
         <nav class="nav-list">
-          <button class="nav-btn" data-target="aide" aria-controls="panel-aide"><span>Aide à mourir</span><small>Résumé article par article et chronologie de la proposition de loi.</small></button>
+          <button class="nav-btn" data-target="aide" aria-controls="panel-aide"><span>Aide à mourir</span><small>Texte adopté, procédure, conditions et réserves constitutionnelles.</small></button>
 <button class="nav-btn" data-target="soins" aria-controls="panel-soins"><span>Soins palliatifs</span><small>Loi promulguée, articles et chronologie.</small></button>
 <button class="nav-btn" data-target="eligibilite" aria-controls="panel-eligibilite"><span>Qui peut demander ?</span><small>Conditions d’accès, exclusions et points de vigilance.</small></button>
 <button class="nav-btn" data-target="parcours" aria-controls="panel-parcours"><span>Parcours prévu</span><small>Étapes de la demande à la traçabilité.</small></button>
+<button class="nav-btn" data-target="parcours-propose" aria-controls="panel-parcours-propose"><span>Parcours proposé</span><small>Scénarios cliniques et organisation envisagée à l’IPC.</small></button>
 <button class="nav-btn" data-target="roles" aria-controls="panel-roles"><span>Rôles des acteurs</span><small>Personne malade, proches, professionnels et institutions.</small></button>
 <button class="nav-btn" data-target="procedure" aria-controls="panel-procedure"><span>Procédure législative</span><small>Comprendre la navette parlementaire et les étapes de fabrication de la loi.</small></button>
 <button class="nav-btn" data-target="ressources" aria-controls="panel-ressources"><span>Ressources et fichiers</span><small>Déposer des fichiers localement, ajouter des liens et retrouver les sources utiles.</small></button>
@@ -195,25 +323,21 @@
       <div class="content" id="contenu">
         <section class="tab-panel" id="panel-aide" data-panel="aide" tabindex="0">
   <div class="panel-head">
-    <p class="eyebrow">Onglet</p>
-    <h2>Aide à mourir</h2>
-    <p>Résumé article par article et chronologie de la proposition de loi.</p>
-  </div>
-  <div class="panel-body"><p>
+  <p class="eyebrow">Cadre législatif</p>
+  <h2>Aide à mourir</h2>
+  <p>Texte définitivement adopté, conditions d’accès, procédure et réserves constitutionnelles.</p>
+</div>
+<div class="panel-body"><p>
   Cette page présente le parcours parlementaire et un résumé article par article de la
   <strong>proposition de loi relative au droit à l’aide à mourir</strong>.
-  Les résumés ci-dessous reprennent uniquement la synthèse article par article réalisée à partir du
-  <strong>texte adopté n° 323 par l’Assemblée nationale en nouvelle lecture le 30 juin 2026</strong>.
+  Les synthèses s’appuient sur le texte adopté n° 323 du 30 juin 2026, repris dans le texte définitivement adopté le 15 juillet 2026.
 </p>
-
 <div class="callout">
-  <strong>Point d’actualité :</strong>
-  ce texte n’est pas présenté ici comme une loi promulguée.
-  Il s’agit d’une proposition de loi en cours de navette parlementaire.
-  La version de référence utilisée pour les résumés d’articles est le texte adopté par l’Assemblée nationale en nouvelle lecture le
-  <strong>30 juin 2026</strong>.
+  <strong>Point d’actualité — 17 août 2026 :</strong>
+  le texte a été définitivement adopté par l’Assemblée nationale le <strong>15 juillet 2026</strong>.
+  Le Conseil constitutionnel l’a déclaré <strong>conforme sous réserves</strong> le <strong>14 août 2026</strong>.
+  La publication officielle, les textes d’application et les protocoles opérationnels restent à vérifier avant toute mise en œuvre.
 </div>
-
 <style>
   .am-box { margin: 18px 0; }
   .am-grid {
@@ -389,10 +513,19 @@
       <p>Adoption du texte n° 323 par l’Assemblée nationale.</p>
     </div>
 
+        <div class="am-date">
+      <strong>7 juillet 2026 — Rejet en nouvelle lecture par le Sénat</strong>
+      <p>Le désaccord persiste ; l’Assemblée nationale est appelée à statuer définitivement.</p>
+    </div>
     <div class="am-date">
-      <strong>Juillet 2026 — Nouvelle lecture au Sénat</strong>
-      <p>Transmission du texte n° 814 au Sénat et poursuite de la discussion parlementaire.</p>
-      <a href="https://www.senat.fr/leg/ppl25-814.pdf" target="_blank" rel="noopener">Consulter le texte Sénat n° 814</a>
+      <strong>15 juillet 2026 — Adoption définitive par l’Assemblée nationale</strong>
+      <p>L’Assemblée nationale adopte définitivement la proposition de loi.</p>
+      <a href="https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N51670" target="_blank" rel="noopener">Voir le dossier législatif officiel</a>
+    </div>
+    <div class="am-date">
+      <strong>14 août 2026 — Décision du Conseil constitutionnel</strong>
+      <p>La décision n° 2026-910 DC déclare la loi conforme à la Constitution sous réserves.</p>
+      <a href="https://www.conseil-constitutionnel.fr/decision/2026/2026910DC.htm" target="_blank" rel="noopener">Lire la décision officielle</a>
     </div>
   </div>
 
@@ -401,6 +534,8 @@
     <a href="https://www.senat.fr/leg/ppl24-661.pdf" target="_blank" rel="noopener">Sénat — texte n° 661</a>
     <a href="https://www.senat.fr/leg/ppl25-440.pdf" target="_blank" rel="noopener">Sénat — texte n° 440</a>
     <a href="https://www.senat.fr/leg/ppl25-814.pdf" target="_blank" rel="noopener">Sénat — texte n° 814</a>
+    <a href="https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N51670" target="_blank" rel="noopener">Assemblée nationale — adoption définitive</a>
+    <a href="https://www.conseil-constitutionnel.fr/decision/2026/2026910DC.htm" target="_blank" rel="noopener">Conseil constitutionnel — décision n° 2026-910 DC</a>
     <a href="https://www.senat.fr/tableau-historique/ppl24-661.html" target="_blank" rel="noopener">Tableau historique du Sénat</a>
     <a href="https://www.senat.fr/dossier-legislatif/ppl24-661.html" target="_blank" rel="noopener">Dossier législatif Sénat</a>
     <a href="https://www.assemblee-nationale.fr/dyn/17/textes/l17t0323_texte-adopte-seance" target="_blank" rel="noopener">Texte adopté n° 323</a>
@@ -3281,7 +3416,7 @@
   <details>
     <summary>
       <span class="proc-step">Contrôle</span>
-      <span class="proc-title">Saisine possible du Conseil constitutionnel</span>
+      <span class="proc-title">Contrôle du Conseil constitutionnel</span>
     </summary>
     <div class="proc-content">
       <p>
@@ -3301,6 +3436,17 @@
         <strong>Conséquence :</strong>
         la loi peut être promulguée telle quelle, être amputée des dispositions censurées,
         ou plus rarement être renvoyée au Parlement pour une nouvelle délibération.
+      </div>
+      <div class="proc-warning">
+        <strong>Application à l’aide à mourir — 14 août 2026 :</strong>
+        saisi après l’adoption définitive du texte, le Conseil constitutionnel a jugé la loi conforme à la Constitution,
+        sous plusieurs réserves d’interprétation. Celles-ci concernent notamment la protection des majeurs sous mesure
+        de protection juridique, la liberté de conscience des pharmaciens et la possibilité, pour certains établissements
+        privés, de refuser que la procédure se déroule dans leurs locaux lorsque celle-ci est manifestement contraire à
+        leurs missions statutaires ou à leur projet d’établissement et qu’une autre offre locale existe.
+        <a href="https://www.conseil-constitutionnel.fr/decision/2026/2026910DC.htm" target="_blank" rel="noopener noreferrer">
+          Consulter la décision n° 2026-910 DC du 14 août 2026
+        </a>.
       </div>
     </div>
   </details>
@@ -3328,61 +3474,22 @@
 
 <div class="section" id="application-aide-mourir">
   <h3>Application au texte sur l’aide à mourir</h3>
-
-  <p>
-    La proposition de loi relative au droit à l’aide à mourir illustre une procédure parlementaire avec désaccord
-    entre les deux assemblées.
-  </p>
-
+  <p>Le parcours parlementaire est achevé ; le texte a ensuite fait l’objet d’un contrôle de constitutionnalité.</p>
   <div class="quick-grid-am">
-    <div class="quick-card-am">
-      <h4>1. Initiative parlementaire</h4>
-      <p>Le texte est une proposition de loi, donc déposé par un parlementaire, et non un projet de loi gouvernemental.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>2. Première lecture</h4>
-      <p>L’Assemblée nationale adopte le texte, puis il est transmis au Sénat.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>3. Désaccord du Sénat</h4>
-      <p>Le Sénat rejette le texte, ce qui entraîne la poursuite de la navette.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>4. Deuxième lecture</h4>
-      <p>L’Assemblée nationale adopte à nouveau le texte, puis le Sénat le rejette de nouveau.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>5. CMP en désaccord</h4>
-      <p>La commission mixte paritaire n’aboutit pas à un compromis.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>6. Nouvelle lecture</h4>
-      <p>Le texte est adopté par l’Assemblée nationale en nouvelle lecture puis transmis au Sénat.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>7. Étape suivante possible</h4>
-      <p>Si le désaccord persiste, l’Assemblée nationale pourrait être appelée à statuer définitivement.</p>
-    </div>
-
-    <div class="quick-card-am">
-      <h4>8. Pas encore promulgué</h4>
-      <p>Le texte ne devient loi qu’après adoption définitive, éventuel contrôle constitutionnel, promulgation et publication.</p>
-    </div>
+    <div class="quick-card-am"><h4>1. Initiative parlementaire</h4><p>Proposition de loi déposée par un parlementaire.</p></div>
+    <div class="quick-card-am"><h4>2. Première lecture</h4><p>Adoption par l’Assemblée nationale puis transmission au Sénat.</p></div>
+    <div class="quick-card-am"><h4>3. Désaccord du Sénat</h4><p>Rejet du texte et poursuite de la navette.</p></div>
+    <div class="quick-card-am"><h4>4. Deuxième lecture</h4><p>Nouvelle adoption par l’Assemblée nationale puis nouveau rejet du Sénat.</p></div>
+    <div class="quick-card-am"><h4>5. CMP non conclusive</h4><p>La commission mixte paritaire ne parvient pas à un compromis.</p></div>
+    <div class="quick-card-am"><h4>6. Nouvelle lecture</h4><p>Adoption du texte n° 323 puis rejet par le Sénat le 7 juillet 2026.</p></div>
+    <div class="quick-card-am"><h4>7. Adoption définitive</h4><p>L’Assemblée nationale statue définitivement le 15 juillet 2026.</p></div>
+    <div class="quick-card-am"><h4>8. Contrôle constitutionnel</h4><p>Le Conseil constitutionnel déclare le texte conforme sous réserves le 14 août 2026. La publication officielle et les textes d’application restent à vérifier.</p></div>
   </div>
 </div>
-
 <div class="warning">
   <strong>Message clé pour les équipes :</strong>
-  tant qu’un texte n’est pas définitivement adopté et promulgué, il ne faut pas dire “la loi prévoit déjà que…”
-  mais plutôt “le texte actuellement discuté prévoit que…”.
+  distinguer le texte définitivement adopté, les réserves du Conseil constitutionnel, les futurs textes d’application et les choix d’organisation propres à l’IPC. Un parcours proposé en interne ne constitue pas, à lui seul, un protocole validé.
 </div>
-
 <div class="section">
   <h3>Mots-clés à comprendre</h3>
 
@@ -3475,8 +3582,207 @@
       Ouvrir le PAD pour ajouter une question
     </a>
   </p></div></div></section>
-<section class="tab-panel" id="panel-ressources" data-panel="ressources" tabindex="0"><div class="panel-head"><p class="eyebrow">Onglet</p><h2>Ressources et fichiers</h2><p>Accéder au document collaboratif et aux sources du site.</p></div><div class="panel-body"><div class="resource-grid"><article class="resource-card"><h3>PAD collaboratif EMSP</h3><p>Déposer une question ou contribuer au travail collectif.</p><a class="pad-primary" href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">Ouvrir le nouveau PAD ↗</a></article><article class="resource-card"><h3>Sources institutionnelles</h3><p>Les liens officiels sont accessibles dans les onglets concernés.</p><button class="tool-btn" type="button" data-jump="aide">Voir la chronologie</button></article></div></div></section></div></main><footer class="site-footer">Ressource d’information EMSP — vérifiez toujours la version officielle des textes.</footer></div><button class="back-top" id="backTop" type="button" aria-label="Revenir en haut">↑ Haut</button>
+<section class="tab-panel" id="panel-parcours-propose" data-panel="parcours-propose" tabindex="0">
+  <div class="panel-head">
+    <p class="eyebrow">Document de travail IPC</p>
+    <h2>Parcours proposé</h2>
+    <p>Scénarios possibles de demande d’aide à mourir et organisation à construire avec les équipes.</p>
+  </div>
+  <div class="panel-body">
+    <div class="pp-intro">
+      <div class="pp-brief">
+        <strong>Un cadre de réflexion, pas encore un protocole validé</strong>
+        <p>Cette page formalise les hypothèses de travail du groupe. Elle distingue les exigences du texte adopté, les questions encore discutées et les choix d’organisation proposés à l’IPC.</p>
+      </div>
+      <div class="pp-source-card">
+        <strong>Références vérifiées</strong>
+        <p>Texte définitivement adopté et contrôle constitutionnel.</p>
+        <div class="pp-source-links">
+          <a href="https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N51670" target="_blank" rel="noopener">Dossier législatif</a>
+          <a href="https://www.conseil-constitutionnel.fr/decision/2026/2026910DC.htm" target="_blank" rel="noopener">Décision n° 2026-910 DC</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="pp-section" aria-labelledby="pp-entrees">
+      <div class="pp-section-head">
+        <span class="pp-chip">1</span>
+        <div><h3 id="pp-entrees">Cartographie des points d’entrée</h3><p>Le premier enjeu est d’identifier rapidement le contexte de soins et les interlocuteurs déjà engagés.</p></div>
+      </div>
+      <div class="pp-scenario-grid">
+        <article class="pp-scenario-card">
+          <h4>Patient non connu de l’EMSP</h4>
+          <ul class="pp-path-list">
+            <li>Consultation externe</li>
+            <li>Hospitalisation à l’IPC</li>
+            <li>Suivi par l’HAD</li>
+          </ul>
+          <p>À formaliser : point de contact unique, délai de réponse, médecin instructeur et modalités d’articulation avec les équipes du domicile.</p>
+        </article>
+        <article class="pp-scenario-card">
+          <h4>Patient connu de l’EMSP</h4>
+          <ul class="pp-path-list">
+            <li>En cours de suivi ambulatoire</li>
+            <li>En cours d’hospitalisation</li>
+            <li>Suivi partagé avec une équipe extérieure</li>
+          </ul>
+          <p>L’antériorité du suivi facilite la coordination, mais ne préjuge ni de l’éligibilité ni de la décision.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="pp-case-banner">
+      <div><span>Cas de travail n° 1</span><strong>Demande formulée pendant une hospitalisation à l’IPC</strong></div>
+      <small>Patient connu ou non de l’EMSP</small>
+    </div>
+
+    <div class="pp-flow">
+      <details open>
+        <summary><span class="pp-step-number">01</span>Évaluer la demande et répondre à la souffrance exprimée</summary>
+        <div class="pp-flow-content">
+          <p class="pp-correction"><strong>Actualisation juridique :</strong> le texte adopté prévoit une information et un accès aux soins palliatifs si la personne le souhaite ; il ne crée pas une évaluation automatique par l’EMSP pour chaque demande.</p>
+          <div class="pp-layer-grid">
+            <article class="pp-layer legal">
+              <h5>Cadre adopté</h5>
+              <p>Le médecin informe la personne sur son état, son évolution, les traitements, les dispositifs d’accompagnement et les soins palliatifs. Il s’assure qu’elle puisse y accéder si elle le souhaite et propose une orientation vers un psychologue ou un psychiatre.</p>
+            </article>
+            <article class="pp-layer discussion">
+              <h5>Discussion du groupe</h5>
+              <p>Faut-il rencontrer toutes les personnes formulant une demande, ou seulement celles identifiées comme relevant déjà des soins palliatifs ?</p>
+            </article>
+            <article class="pp-layer proposal">
+              <h5>Proposition IPC</h5>
+              <p>Proposer systématiquement une rencontre avec l’EMSP, sans l’imposer : réponse à la souffrance, information palliative et soutien de l’équipe d’hospitalisation.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary><span class="pp-step-number">02</span>Instruire la demande et préparer la décision</summary>
+        <div class="pp-flow-content">
+          <p class="pp-correction"><strong>Actualisation juridique :</strong> la procédure collégiale est obligatoire dans le texte définitivement adopté. La décision finale reste prise par le médecin chargé d’instruire la demande.</p>
+          <div class="pp-layer-grid">
+            <article class="pp-layer legal">
+              <h5>Cadre adopté</h5>
+              <p>Le collège pluriprofessionnel comprend au minimum un médecin spécialiste indépendant — ni médecin traitant ni lié hiérarchiquement — ainsi qu’un auxiliaire médical ou un aide-soignant. D’autres professionnels utiles peuvent être invités.</p>
+            </article>
+            <article class="pp-layer discussion">
+              <h5>Discussion du groupe</h5>
+              <p>Rôle de l’oncologue référent, du médecin généraliste, du médecin de l’EMSP et intérêt d’un tiers supplémentaire dans la réflexion.</p>
+            </article>
+            <article class="pp-layer proposal">
+              <h5>Proposition IPC</h5>
+              <p>Au-delà du minimum légal, associer l’oncologue référent et l’EMSP. Faire définir par la CME le profil et le mode de désignation du médecin indépendant, ainsi que le recueil de l’avis du médecin traitant.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary><span class="pp-step-number">03</span>Organiser la collégialité à l’IPC</summary>
+        <div class="pp-flow-content">
+          <p class="pp-correction"><strong>Actualisation juridique :</strong> contrairement à la version discutée initialement, la collégialité n’est plus une simple option organisationnelle : elle figure dans le texte adopté.</p>
+          <div class="pp-layer-grid">
+            <article class="pp-layer legal">
+              <h5>Cadre adopté</h5>
+              <p>La réunion du collège est organisée physiquement ; le recours à la distance intervient lorsqu’une réunion en présence est impossible. Le médecin instructeur prend sa décision à l’issue de cette procédure.</p>
+            </article>
+            <article class="pp-layer discussion">
+              <h5>Discussion du groupe</h5>
+              <p>Une simple RCP médicale paraît insuffisante. La place des soignants et de l’EMSP doit être explicite, tout comme la responsabilité d’organiser la réunion.</p>
+            </article>
+            <article class="pp-layer proposal">
+              <h5>Proposition IPC</h5>
+              <p>Réunion dans le service du patient avec, selon les disponibilités : médecin instructeur, médecin indépendant, soignant du service, oncologue référent, médecin et IDE de l’EMSP. Tracer les avis et la décision dans le dossier.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details open>
+        <summary><span class="pp-step-number">04</span>Préparer la réalisation du geste et la continuité des soins</summary>
+        <div class="pp-flow-content">
+          <p class="pp-correction"><strong>Actualisation juridique :</strong> l’administration par un tiers n’est prévue que lorsque la personne est physiquement dans l’incapacité de s’administrer la substance ; le simple souhait de ne pas le faire ne suffit pas.</p>
+          <div class="pp-layer-grid">
+            <article class="pp-layer legal">
+              <h5>Cadre adopté</h5>
+              <p>L’auto-administration est le principe. En cas d’incapacité physique, un médecin ou un infirmier administre la substance. La clause de conscience s’accompagne d’une information rapide et d’une orientation assurant la continuité.</p>
+            </article>
+            <article class="pp-layer discussion">
+              <h5>Discussion du groupe</h5>
+              <p>Explorer les inquiétudes autour de l’auto-administration, anticiper les clauses de conscience et sécuriser la disponibilité des professionnels le jour prévu.</p>
+            </article>
+            <article class="pp-layer proposal">
+              <h5>Proposition IPC</h5>
+              <p>Identifier en amont le médecin, l’IDE et un relais. La possibilité pour le médecin instructeur de rester engagé dans les échanges tout en refusant la prescription doit faire l’objet d’une validation juridique et institutionnelle.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <section class="pp-section" aria-labelledby="pp-situations">
+      <div class="pp-section-head">
+        <span class="pp-chip">2</span>
+        <div><h3 id="pp-situations">Situations particulières à formaliser</h3><p>Deux contextes appellent un circuit renforcé et des responsabilités clairement établies.</p></div>
+      </div>
+      <div class="pp-open-grid">
+        <article class="pp-open-card">
+          <h4>Phase terminale</h4>
+          <p>Vérifier la volonté libre et éclairée, traiter sans délai les symptômes, anticiper l’évolution rapide, organiser la continuité et préciser les modalités d’accompagnement des proches et des équipes.</p>
+        </article>
+        <article class="pp-open-card">
+          <h4>Essai clinique de phase précoce</h4>
+          <p>Coordonner investigateur, équipe de recherche et soins. Maintenir une évaluation indépendante de la demande, une information loyale sur les options thérapeutiques et palliatives, et une traçabilité compatible avec le protocole.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="pp-section" aria-labelledby="pp-organisation">
+      <div class="pp-section-head">
+        <span class="pp-chip">3</span>
+        <div><h3 id="pp-organisation">Organisation envisagée au sein de l’IPC</h3><p>Six chantiers concrets pour transformer les discussions en parcours sécurisé.</p></div>
+      </div>
+      <div class="pp-priority-grid">
+        <article class="pp-priority"><b>Formaliser les points d’entrée</b><p>Consultation, hospitalisation et HAD : contact, délai, médecin instructeur et transmissions.</p></article>
+        <article class="pp-priority"><b>Étoffer la collégialité</b><p>Composition élargie, convocation, suppléance, traçabilité et articulation avec la CME.</p></article>
+        <article class="pp-priority"><b>Informer sur les soins palliatifs</b><p>Support commun, moment de l’information, compréhension du patient et accès effectif.</p></article>
+        <article class="pp-priority"><b>Proposer algo, psycho ou psychiatrie</b><p>Orienter selon les symptômes et les besoins, sans transformer l’évaluation en obstacle.</p></article>
+        <article class="pp-priority"><b>Ouvrir une consultation d’ACP</b><p>Distinguer l’Advance Care Planning de l’instruction de la demande d’aide à mourir.</p></article>
+        <article class="pp-priority"><b>Sécuriser les relais</b><p>Anticiper disponibilité, clause de conscience, professionnels volontaires et continuité.</p></article>
+      </div>
+    </section>
+
+    <section class="pp-section" aria-labelledby="pp-decisions">
+      <div class="pp-section-head">
+        <span class="pp-chip">4</span>
+        <div><h3 id="pp-decisions">Décisions institutionnelles attendues</h3><p>Les arbitrages à rendre avant de transformer cette proposition en protocole.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table class="pp-decision-table">
+          <thead><tr><th>Sujet</th><th>Arbitrage à rendre</th><th>Pilotage proposé</th></tr></thead>
+          <tbody>
+            <tr><td>Saisine de l’EMSP</td><td>Proposition systématique ou critères ; consentement et délai.</td><td>CME · EMSP · directions des soins</td></tr>
+            <tr><td>Médecin indépendant</td><td>Profil, mode de désignation, indépendance et place de l’oncologue.</td><td>CME · juridique</td></tr>
+            <tr><td>Collège pluriprofessionnel</td><td>Composition, convocation, participation à distance, compte rendu et archivage.</td><td>CME · qualité · dossier patient</td></tr>
+            <tr><td>Clause de conscience</td><td>Information immédiate, relais désigné et garantie de continuité.</td><td>CME · RH · juridique</td></tr>
+            <tr><td>Situations urgentes</td><td>Phase terminale, dégradation rapide et coordination avec les dispositifs d’urgence.</td><td>EMSP · soins critiques · éthique</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pp-glossary" aria-label="Glossaire">
+        <span><strong>EMSP</strong> · Équipe mobile de soins palliatifs</span>
+        <span><strong>HAD</strong> · Hospitalisation à domicile</span>
+        <span><strong>IDE</strong> · Infirmier diplômé d’État</span>
+        <span><strong>RCP</strong> · Réunion de concertation pluridisciplinaire</span>
+        <span><strong>CME</strong> · Commission médicale d’établissement</span>
+        <span><strong>ACP</strong> · Advance Care Planning</span>
+      </div>
+    </section>
+  </div>
+</section>
+<section class="tab-panel" id="panel-ressources" data-panel="ressources" tabindex="0"><div class="panel-head"><p class="eyebrow">Onglet</p><h2>Ressources et fichiers</h2><p>Accéder au document collaboratif et aux sources du site.</p></div><div class="panel-body"><div class="resource-grid"><article class="resource-card"><h3>PAD collaboratif EMSP</h3><p>Déposer une question ou contribuer au travail collectif.</p><a class="pad-primary" href="https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo">Ouvrir le nouveau PAD ↗</a></article><article class="resource-card"><h3>Sources institutionnelles</h3><p>Les liens officiels sont accessibles dans les onglets concernés.</p><button class="tool-btn" type="button" data-jump="aide">Voir la chronologie</button></article></div></div></section></div></main><footer class="site-footer"><strong>Ressource de travail EMSP · IPC</strong><span>Cadre légal, repères cliniques et propositions organisationnelles — toujours vérifier les textes officiels et les validations institutionnelles.</span></footer></div><button class="back-top" id="backTop" type="button" aria-label="Revenir en haut">↑ Haut</button>
 <script>
 (()=>{const P='https://mypads2.framapad.org/mypads/?/mypads/group/pad-emsp-1npo79fu/pad/view/projet-de-loi-sur-la-fin-de-vie-yhpw79wo',pan=[...document.querySelectorAll('[data-panel]')],nav=[...document.querySelectorAll('.nav-btn')],sel=document.getElementById('mobileSelect'),q=document.getElementById('searchInput'),empty=document.getElementById('emptyState'),top=document.getElementById('backTop'),bar=document.getElementById('scrollProgress');document.querySelectorAll('a[href*="framapad"],a[href*="mypads"]').forEach(a=>{a.href=P;a.target='_blank';a.rel='noopener noreferrer'});document.querySelectorAll('a[target="_blank"]').forEach(a=>a.rel='noopener noreferrer');function show(n,h=true){n=pan.some(p=>p.dataset.panel===n)?n:'aide';pan.forEach(p=>p.classList.toggle('active',p.dataset.panel===n));nav.forEach(b=>{let x=b.dataset.target===n;b.classList.toggle('active',x);b.setAttribute('aria-current',x?'page':'false')});sel.value=n;q.value='';empty.style.display='none';if(h)history.replaceState(null,'','#'+n)}nav.forEach(b=>b.onclick=()=>show(b.dataset.target));sel.onchange=e=>show(e.target.value);document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{show(b.dataset.jump);document.getElementById('contenu').scrollIntoView()});document.getElementById('expandAll').onclick=()=>document.querySelectorAll('.tab-panel.active details').forEach(d=>d.open=true);document.getElementById('collapseAll').onclick=()=>document.querySelectorAll('.tab-panel.active details').forEach(d=>d.open=false);q.oninput=()=>{let t=q.value.trim().toLowerCase(),p=document.querySelector('.tab-panel.active'),hit=!t||p.textContent.toLowerCase().includes(t);empty.style.display=hit?'none':'block';if(t&&hit){let d=[...p.querySelectorAll('details')].find(x=>x.textContent.toLowerCase().includes(t));if(d)d.open=true}};function scr(){let m=document.documentElement.scrollHeight-innerHeight;bar.style.width=(m?scrollY/m*100:0)+'%';top.classList.toggle('visible',scrollY>500)}addEventListener('scroll',scr,{passive:true});top.onclick=()=>scrollTo({top:0,behavior:'smooth'});addEventListener('hashchange',()=>show(location.hash.slice(1),false));show(location.hash.slice(1)||'aide',false);scr()})();
 </script></body></html>
-
